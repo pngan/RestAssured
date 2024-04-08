@@ -1,0 +1,12 @@
+{
+  "name": "ra-electron",
+  "version": "1.0.0",
+  "main": "main.js",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^29.2.0"
+  },
+  "scripts": {
+    "start": "electron ."
+  }
+}
