@@ -1,5 +1,6 @@
-const OpenAPIParser = require("@readme/openapi-parser");
-
+// const OpenAPIParser = require("@readme/openapi-parser");
+import OpenAPIParser from '@readme/openapi-parser';
+// import OpenAPIParser from 'openapi-parser';
 // let strDocPath = './data/api-docs.yaml';
 // let strDocPath = './data/invalid.yaml';
 
@@ -14,7 +15,7 @@ const OpenAPIParser = require("@readme/openapi-parser");
 async function getOpenApiEndpoints(strDocPath) {
   try {
     let api = await OpenAPIParser.parse(strDocPath);
-    objEndpoint = {};
+    let objEndpoint = {};
 
     for (const [endpoint, methods] of Object.entries(api.paths)) {
       for (const [method, data] of Object.entries(methods)) {
@@ -28,6 +29,9 @@ async function getOpenApiEndpoints(strDocPath) {
 
     return {response: 'success', data: objEndpoint};
   } catch (err) {
+    console.log(err);
     return {response: 'failed', data: "Unable to parse OpenApi document"};
   }
 }
+
+export default getOpenApiEndpoints;
