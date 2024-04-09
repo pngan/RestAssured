@@ -1,12 +1,15 @@
 const isDev = import('electron-is-dev');
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const getOpenApiEndpoints = require('../../converter/getOpenApiEndpoints.js');
+const ConverterCollection = require('../../converter/converter.js');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
   width: 800,
   height: 600,
   webPreferences: {
+    preload: path.join(__dirname, '../src/preload.js'),
     nodeIntegration: true,
     contextIsolation: false
   },
@@ -31,3 +34,20 @@ app.on("window-all-closed", function () {
 });
 
 let mainWindow;
+
+ipcMain.on('triggerFileLoad', (event, arg) => {
+  const { fileName } = arg;
+  console.log(fileName);
+
+
+
+let strDocPath = '../converter/data/api-docs.yaml';
+
+(async() => {
+    let response = await getOpenApiEndpoints.getOpenApiEndpoints(strDocPath);
+    
+    let converterCollection = new ConverterCollection.ConverterCollection();
+    let converter = converterCollection.getSelectedConverter();
+    converter.convert(response.data);
+  })();
+});
