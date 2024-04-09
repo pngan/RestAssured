@@ -2,18 +2,8 @@ import React, { useContext, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import MainWindow from './Components/MainWindow';
+import AppProvider from './AppProvider';
 
-
-const AppContext = React.createContext({});
-
-const AppProvider = ({children}) => {
-    return (<AppContext.Provider value={{}}>
-      {children}
-    </AppContext.Provider>
-    );
-};
-
-const useApp = () => useContext(AppContext);
 function App() {
   return (
     <div className="App">
@@ -24,4 +14,4 @@ function App() {
   );
 }
 
-export default App;
+export { App as default };

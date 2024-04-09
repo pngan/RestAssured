@@ -1,9 +1,9 @@
-import React, {useState} from "react";
-const { ipcRenderer } = window.require('electron');
+import React, {useContext, useState} from "react";
+import { useApp } from "../AppProvider";
 
 const SourceInputSelection = () => {
-      const [fileOrUrl, setFileOrUrl] = useState('');
-  
+  const [fileOrUrl, setFileOrUrl] = useState('');
+  const { getFileOrURLData } = useApp();
   const handleFilePicker = (event) => { 
     setFileOrUrl(event.target?.value);
   }
@@ -13,10 +13,11 @@ const SourceInputSelection = () => {
     setFileOrUrl(event.target.value)
   }
 
-  const triggerConvert = (event) => {
-    // TODO: add call to convertra-create-react-app/src/converter/data/api-docs.yaml
-    // window.console.debug(mainProcess);
-    ipcRenderer.send('triggerFileLoad', {fileName: fileOrUrl});
+  const triggerConvert = async(event) => {
+    const data = getFileOrURLData(fileOrUrl).then((data) => {
+    console.debug(data);  
+    });
+    
   };
 
   return (

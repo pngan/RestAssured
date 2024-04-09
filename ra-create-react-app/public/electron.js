@@ -11,7 +11,6 @@ function createWindow() {
   webPreferences: {
     preload: path.join(__dirname, '../src/preload.js'),
     nodeIntegration: true,
-    contextIsolation: false
   },
  });
 mainWindow.loadURL(
@@ -22,32 +21,27 @@ mainWindow.loadURL(
 if (isDev) {
   mainWindow.webContents.openDevTools();
  }
+ return mainWindow;
 }
+
 app.whenReady().then(() => {
-  createWindow();
+  const win = createWindow();
   app.on("activate", function () {
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+  ipcMain.handle('triggerFileLoad', async (_event, data) => {
+    // console.log(data);
+    let strDocPath = '../converter/data/api-docs.yaml';
+    let response = await getOpenApiEndpoints.getOpenApiEndpoints(strDocPath);
+    win.webContents.send('file-data-loaded', response.data);
+  });
+  // ipcMain.on('file-data-loaded', (_event, value) => {
+  //   console.log(value) // will print value to Node console
+  // })
 });
+
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") app.quit();
 });
 
 let mainWindow;
-
-ipcMain.on('triggerFileLoad', (event, arg) => {
-  const { fileName } = arg;
-  console.log(fileName);
-
-
-
-let strDocPath = '../converter/data/api-docs.yaml';
-
-(async() => {
-    let response = await getOpenApiEndpoints.getOpenApiEndpoints(strDocPath);
-    
-    let converterCollection = new ConverterCollection.ConverterCollection();
-    let converter = converterCollection.getSelectedConverter();
-    converter.convert(response.data);
-  })();
-});
