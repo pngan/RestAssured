@@ -24,12 +24,23 @@ async function getOpenApiEndpoints(strDocPath) {
         data['method'] = method.toUpperCase();
         data['path'] = endpoint;
         data['is_selected'] = true;
+        data['query_parameters'] = [];
 
+        // Parser query parameters
+        if (data.parameters !== undefined) {
+          for(const parameter of data.parameters) {
+            let p = {};
+            p.name = parameter.name;
+            p.type = parameter.schema.type;
+            p.required = parameter.required;
+            data['query_parameters'].push(p);
+          }
+        }
         arrEndpoints.push(data);
       }
     }
 
-
+    // console.log(arrEndpoints);
 
     return {response: 'success', data: arrEndpoints};
   } catch (err) {
