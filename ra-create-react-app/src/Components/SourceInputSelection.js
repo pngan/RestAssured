@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+const { ipcRenderer } = window.require('electron');
 
 const SourceInputSelection = () => {
       const [fileOrUrl, setFileOrUrl] = useState('');
@@ -14,11 +15,8 @@ const SourceInputSelection = () => {
 
   const triggerConvert = (event) => {
     // TODO: add call to convertra-create-react-app/src/converter/data/api-docs.yaml
-    let strDocPath = 'petstore.yaml';
-  
-      (async() => {
-        // TODO: add call
-      })();
+    // window.console.debug(mainProcess);
+    ipcRenderer.send('triggerFileLoad', {fileName: fileOrUrl});
   };
 
   return (
