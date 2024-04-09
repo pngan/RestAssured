@@ -10,7 +10,6 @@ const OpenAPIParser = require("@readme/openapi-parser");
   console.log(response);
 })();
 ******/
-
 async function getOpenApiEndpoints(strDocPath) {
   try {
     let api = await OpenAPIParser.parse(strDocPath);
@@ -28,6 +27,9 @@ async function getOpenApiEndpoints(strDocPath) {
 
     return {response: 'success', data: objEndpoint};
   } catch (err) {
+    console.log(err);
     return {response: 'failed', data: "Unable to parse OpenApi document"};
   }
 }
+
+module.exports = { getOpenApiEndpoints };
