@@ -123,6 +123,17 @@ class BrunoConverter {
                     break;
 
             }
+
+            // Output query parameters
+            let required_params = ep.query_parameters.filter((p) => p.required === true);
+            if (required_params.length > 0) {
+                console.log('\nquery {');
+                for (const param of required_params) {
+                    console.log("  " + param.name + ": " + param.type);
+                    console.log('}');
+                }
+            }
+
             console.log('\n\n----------------------------------------\n\n');
         }
     };
