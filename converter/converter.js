@@ -95,31 +95,31 @@ class BrunoConverter {
                     console.log('  url: ' + ep.path);
                     console.log('  body: none');
                     console.log('  auth: none');
-                    console.log('}');
+                    console.log('}\n');
                     break;
 
                 case 'POST':
                     console.log('post {');
                     console.log('  url: ' + ep.path);
-                    console.log('}');
+                    console.log('}\n');
                     break;
 
                 case 'PUT':
                     console.log('put {');
                     console.log('  url: ' + ep.path);
-                    console.log('}');
+                    console.log('}\n');
                     break;
 
                 case 'PATCH':
                     console.log('patch {');
                     console.log('  url: ' + ep.path);
-                    console.log('}');
+                    console.log('}\n');
                     break;
 
                 case 'DELETE':
                     console.log('delete {');
                     console.log('  url: ' + ep.path);
-                    console.log('}');
+                    console.log('}\n');
                     break;
 
             }
@@ -130,11 +130,11 @@ class BrunoConverter {
                 console.log('\nquery {');
                 for (const param of required_params) {
                     console.log("  " + param.name + ": " + param.type);
-                    console.log('}');
                 }
+                console.log('}\n');
             }
 
-            console.log('\n\n----------------------------------------\n\n');
+            console.log('\n----------------------------------------\n\n');
         }
     };
 }
