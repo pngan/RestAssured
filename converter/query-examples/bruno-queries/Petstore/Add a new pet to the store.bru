@@ -1,13 +1,16 @@
 meta {
   name: Add a new pet to the store
   type: http
-  seq: 4
 }
 
 post {
   url: /pet
   body: json
   auth: none
+}
+
+headers {
+  TenantId: 2
 }
 
 body:json {

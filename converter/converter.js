@@ -13,7 +13,7 @@ class ConverterCollection {
 
 class RestClientConverter {
     name = 'Rest Client';
-    isSelected = true;
+    isSelected = false;
     
     convert(arrEndpoints) {
         for (const ep of arrEndpoints) {
@@ -44,6 +44,7 @@ class RestClientConverter {
                                     // }
                                     break;
                                 case 'application/json':
+                                    console.log(content);
                                     break;
                                 default:
                             }
@@ -81,10 +82,48 @@ class RestClientConverter {
 
 class BrunoConverter {
     name = "Bruno";
-    isSelected = false;
+    isSelected = true;
     convert(arrEndpoints) {
-        for (let ep in arrEndpoints) {
-            console.log(ep);
+        for (let ep of arrEndpoints) {
+            console.log('meta {');
+            console.log('  name: ' + ep.summary);
+            console.log('  type: http');
+            console.log('}\n');
+            switch(ep.method) {
+                case 'GET':
+                    console.log('get {');
+                    console.log('  url: ' + ep.path);
+                    console.log('  body: none');
+                    console.log('  auth: none');
+                    console.log('}');
+                    break;
+
+                case 'POST':
+                    console.log('post {');
+                    console.log('  url: ' + ep.path);
+                    console.log('}');
+                    break;
+
+                case 'PUT':
+                    console.log('put {');
+                    console.log('  url: ' + ep.path);
+                    console.log('}');
+                    break;
+
+                case 'PATCH':
+                    console.log('patch {');
+                    console.log('  url: ' + ep.path);
+                    console.log('}');
+                    break;
+
+                case 'DELETE':
+                    console.log('delete {');
+                    console.log('  url: ' + ep.path);
+                    console.log('}');
+                    break;
+
+            }
+            console.log('\n\n----------------------------------------\n\n');
         }
     };
 }
