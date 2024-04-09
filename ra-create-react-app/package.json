@@ -2,24 +2,37 @@
   "name": "ra-create-react-app",
   "version": "0.1.0",
   "private": true,
+  "main": "public/electron.js",
   "dependencies": {
     "@readme/openapi-parser": "^2.5.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.3",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^29.2.0",
+    "electron-builder": "^24.13.3",
+    "electron-is-dev": "^3.0.1",
     "openapi-parser": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "styled-components": "^6.1.8",
+    "wait-on": "^7.2.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "yarn run react-build && yarn run electron-build",
+    "eject": "react-scripts eject",
+    "electron-build": "electron-builder",
+    "react-build": "react-scripts build",
+    "react-eject": "react-scripts eject",
+    "react-start": "react-scripts start",
+    "react-test": "react-scripts test",
+    "start": "concurrently \"cross-env BROWSER=none yarn run react-start\" \"wait-on http://localhost:3000 && electron .\"",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start-electron": "electron ."
   },
   "eslintConfig": {
     "extends": [
