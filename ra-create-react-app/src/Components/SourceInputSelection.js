@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import getOpenApiEndpoints from "../converter/getOpenApiEndpoints";
 
 const SourceInputSelection = () => {
       const [fileOrUrl, setFileOrUrl] = useState('');
@@ -18,8 +17,7 @@ const SourceInputSelection = () => {
     let strDocPath = 'petstore.yaml';
   
       (async() => {
-        let response = await getOpenApiEndpoints(strDocPath);
-        console.log(response);
+        // TODO: add call
       })();
   };
 
