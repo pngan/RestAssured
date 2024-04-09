@@ -1,5 +1,4 @@
-import React, { useContext, useState } from 'react';
-import logo from './logo.svg';
+import React, { useContext } from 'react';
 import './App.css';
 import MainWindow from './Components/MainWindow';
 
