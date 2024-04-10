@@ -11,6 +11,13 @@ const Container = styled.div`
 const MainWindow = () => {
   const [data, setData] = useState([]);
 
+
+
+  const convertOpenApi =  (event) => {
+    console.log(data);
+  };
+
+
     return (
       <Container className="container">
         <div className='row'>
@@ -28,6 +35,10 @@ const MainWindow = () => {
             <div className="col-6">
                 <EndpointsList data={data}/>
             </div>
+            <div className="col-6">
+            <button type="button" onClick={convertOpenApi}>Convert</button>
+            </div>
+
             <div className="col-6">
                 <RightPanel/>
             </div>
