@@ -27,13 +27,32 @@ const Title = styled.span`
 
 const LeftPanel = ({data}) => {
   const [selectedEndpoints, setSelectedEndpoints] = useState([])
+  const [selectAll, setSelectAll] = useState(false)
 
-  console.log('data', data)
+  const SelectAllCheckbox = () => {
+    const handleSelectAll = (event) => {
+      const isChecked = event.target.checked;
+      setSelectAll(!selectAll)
+      if(isChecked){
+        const endpointsIdArr = data.map(({id}) => id)
+        setSelectedEndpoints(endpointsIdArr)
+      } else {
+        setSelectedEndpoints([])
+      }
+    }
+
+    return(<div>
+      <input onChange={handleSelectAll} id="select_all_checkbox" type='checkbox' checked={selectAll}/>
+      <label for="select_all_checkbox">Select all</label>
+    </div>
+  )
+  }
 
   return (
         <Wrapper>
             <Title>Endpoints to Convert</Title>
             <Content>
+                {data.length > 0 && <SelectAllCheckbox/>}
                 {data.map((endpoint) => <EndpointCheckbox selectedEndpoints={selectedEndpoints} setSelectedEndpoints={setSelectedEndpoints} data={endpoint}/>)}
             </Content>
         </Wrapper>

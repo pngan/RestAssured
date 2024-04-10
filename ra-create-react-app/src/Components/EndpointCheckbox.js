@@ -6,7 +6,6 @@ const CheckboxLabel = styled.label `
 `;
 
 const EndpointCheckbox = ({data, selectedEndpoints, setSelectedEndpoints}) => {
-  const [checked, setChecked] = useState(false)
   const handleOnChange = (event) => {
     const {value} = event.target;
     const isChecked = event.target.checked
@@ -17,13 +16,11 @@ const EndpointCheckbox = ({data, selectedEndpoints, setSelectedEndpoints}) => {
       const filteredEndpoints = selectedEndpoints.filter((endpoint) => endpoint !== value)
       setSelectedEndpoints(filteredEndpoints)
     }
-    setChecked(isChecked)
   }
-  const test = `${data.method}-${data.path}`
   return (
-  <div key={test}>
-    <input onChange={handleOnChange} id={test} type='checkbox' checked={checked} value={data.operationId}/>
-    <CheckboxLabel for={test}>{`${data.method} ${data.path}`} </CheckboxLabel>
+  <div key={data.id}>
+    <input onChange={handleOnChange} id={data.id} type='checkbox' checked={selectedEndpoints.includes(data.id)} value={data.id}/>
+    <CheckboxLabel for={data.id}>{`${data.method} ${data.path}`} </CheckboxLabel>
   </div>)
 }
 
