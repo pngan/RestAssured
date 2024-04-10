@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import EndpointCheckbox from "./EndpointCheckbox";
+import SelectAllCheckbox from "./SelectAllCheckbox";
 
 const Wrapper = styled.section`
   margin-top:20px;
@@ -25,34 +26,19 @@ const Title = styled.span`
   margin: 0 0 10px 20px;
 `;
 
+export const CheckboxLabel = styled.label `
+  margin-left: 10px
+`;
+
 const LeftPanel = ({data}) => {
   const [selectedEndpoints, setSelectedEndpoints] = useState([])
-  const [selectAll, setSelectAll] = useState(false)
-
-  const SelectAllCheckbox = () => {
-    const handleSelectAll = (event) => {
-      const isChecked = event.target.checked;
-      setSelectAll(!selectAll)
-      if(isChecked){
-        const endpointsIdArr = data.map(({id}) => id)
-        setSelectedEndpoints(endpointsIdArr)
-      } else {
-        setSelectedEndpoints([])
-      }
-    }
-
-    return(<div>
-      <input onChange={handleSelectAll} id="select_all_checkbox" type='checkbox' checked={selectAll}/>
-      <label for="select_all_checkbox">Select all</label>
-    </div>
-  )
-  }
+  
 
   return (
         <Wrapper>
             <Title>Endpoints to Convert</Title>
             <Content>
-                {data.length > 0 && <SelectAllCheckbox/>}
+                {data.length > 0 && <SelectAllCheckbox data={data} setSelectedEndpoints={setSelectedEndpoints}/>}
                 {data.map((endpoint) => <EndpointCheckbox selectedEndpoints={selectedEndpoints} setSelectedEndpoints={setSelectedEndpoints} data={endpoint}/>)}
             </Content>
         </Wrapper>

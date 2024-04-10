@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components'
+import { CheckboxLabel } from './EndpointsList';
 
-const CheckboxLabel = styled.label `
-  margin-left: 10px
-`;
 
 const EndpointCheckbox = ({data, selectedEndpoints, setSelectedEndpoints}) => {
   const handleOnChange = (event) => {
