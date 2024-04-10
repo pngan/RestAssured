@@ -1,9 +1,10 @@
-import React, {useState} from "react"; 
+import React, { useMemo, useState } from "react"; 
 import styled from "styled-components";
 import SourceInputSelection from "./SourceInputSelection";
 import EndpointsList from "./EndpointsList";
-import RightPanel from "./RightPanel";
+import Output from "./Output";
 import { useApp } from "../AppProvider";
+import { ConverterCollection } from "../converter/converter";
 
 const Container = styled.div`
   margin-top: 50px;
@@ -12,14 +13,17 @@ const Container = styled.div`
 const MainWindow = () => {
   const [data, setData] = useState([]);
   const [convertedData, setConvertedData] = useState('');
+  const [outputFormat, setOutputFormat] = useState('Rest Client');
   const { convertSelectedEndpoints } = useApp();
 
+  const handleOutputFormat = (event) => {
+    setConvertedData('');
+    setOutputFormat(event.target.value);
+  };
 
   const convertOpenApi = async (event) => {
-    // TODO: get selected endpoints and output format
-    const fileData = await convertSelectedEndpoints({arrEndpoints: data}, {});
+    const fileData = await convertSelectedEndpoints({arrEndpoints: data}, outputFormat);
     setConvertedData(fileData);
-    console.log(fileData);
   };
 
   const saveOutput = () => {
@@ -30,6 +34,18 @@ const MainWindow = () => {
       link.href = url;
       link.click();
   }
+
+  const { converters } = new ConverterCollection();
+
+  const converterList = useMemo(() => {
+    if(converters){
+      return converters.map((converter) => {
+        return (<option key={converter.name} value={converter.name}>{converter.name}</option>);
+      })
+    } else {
+      return (<option>None available</option>);
+    }
+  },[converters]);
 
     return (
       <Container className="container">
@@ -43,7 +59,9 @@ const MainWindow = () => {
           <div className='col-5'>
             <label>
               Output Format:
-              <input/>
+              <select onChange={handleOutputFormat}>
+                {converterList}
+              </select>
             </label>
           </div>
           
@@ -57,7 +75,7 @@ const MainWindow = () => {
             </div>
 
             <div className="col-5">
-                <RightPanel convertedData={convertedData}/>
+                <Output convertedData={convertedData}/>
                 <button type="button" onClick={saveOutput}>Save</button>
             </div>
         </div>

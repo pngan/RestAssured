@@ -1,0 +1,18 @@
+meta {
+  name: Update Pet Name
+  type: http
+  seq: 5
+}
+
+patch {
+  url: /pets/{id}
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "id": 10,
+      "name": "doge"
+  }
+}

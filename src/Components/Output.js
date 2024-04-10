@@ -16,12 +16,12 @@ const Title = styled.span`
 
 `;
 
-const Output = () => {
+const Output = ({convertedData}) => {
     return (
         <Wrapper>
             <Title>Output</Title>
             <Content>
-                Right Panel here
+                {convertedData}
             </Content>
         </Wrapper>
     )

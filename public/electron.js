@@ -30,14 +30,13 @@ app.whenReady().then(() => {
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
   ipcMain.handle('trigger-file-load', async (_event, strDocPath) => {
-    // strDocPath = '../converter/data/api-docs.yaml';
-    // strDocPath = 'https://petstore3.swagger.io/api/v3/openapi.json'
     let response = await getOpenApiEndpoints.getOpenApiEndpoints(strDocPath);
     return response.data.arrEndpoints;
   });
 
   ipcMain.handle('convert-selected-endpoints', async (_event, endpointData, outputFormat) => {
     let converterCollection = new ConverterCollection.ConverterCollection();
+    converterCollection.setSelectedConverter(outputFormat);
     let converter = converterCollection.getSelectedConverter();
     return converter.convert(endpointData);
   });
