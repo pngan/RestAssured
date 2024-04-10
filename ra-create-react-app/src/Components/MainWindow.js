@@ -1,12 +1,16 @@
 import React from "react"; 
 import styled from "styled-components";
 import SourceInputSelection from "./SourceInputSelection";
-import LeftPanel from "./LeftPanel";
+import EndpointsList from "./EndpointsList";
 import RightPanel from "./RightPanel";
+
+const Container = styled.div`
+  margin-top: 50px;
+`
 
 const MainWindow = () => {
     return (
-      <div className="container">
+      <Container className="container">
         <div className='row'>
           <div className='col-6'>
             <SourceInputSelection/>
@@ -20,14 +24,14 @@ const MainWindow = () => {
           </div>
         <div className="row">
             <div className="col-6">
-                <LeftPanel/>
+                <EndpointsList/>
             </div>
             <div className="col-6">
                 <RightPanel/>
             </div>
         </div>
         </div>
-      </div>
+      </Container>
     );
 };
 
