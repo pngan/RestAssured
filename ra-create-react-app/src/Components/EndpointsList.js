@@ -24,42 +24,7 @@ const Title = styled.span`
   margin: 0 0 10px 20px;
 `;
 
-const testData = [
-  {
-    summary: 'List all pets',
-    operationId: 'listPets',
-    tags: [ 'pets' ],
-    parameters: [ [Object] ],
-    responses: { '200': [Object], default: [Object] },
-    method: 'GET',
-    path: '/pets',
-    is_selected: true
-  },
-  {
-    summary: 'Create a pet',
-    operationId: 'createPets',
-    tags: [ 'pets' ],
-    requestBody: { content: [Object], required: true },
-    responses: { '201': [Object], default: [Object] },
-    method: 'POST',
-    path: '/pets',
-    is_selected: true
-  },
-  {
-    summary: 'Info for a specific pet',
-    operationId: 'showPetById',
-    tags: [ 'pets' ],
-    parameters: [ [Object] ],
-    responses: { '200': [Object], default: [Object] },
-    method: 'GET',
-    path: '/pets/{petId}',
-    is_selected: true
-  }
-]
-
-
-
-const LeftPanel = () => {
+const LeftPanel = (props) => {
   const [selectedEndpoints, setSelectedEndpoints] = useState([])
 
   const handleOnChange = (event) => {
@@ -89,7 +54,7 @@ const LeftPanel = () => {
         <Wrapper>
             <Title>Endpoints to Convert</Title>
             <Content>
-                {testData.map((endpoint) => <Endpoint data={endpoint}/>)}
+                {props.data.map((endpoint) => <Endpoint data={endpoint}/>)}
             </Content>
         </Wrapper>
     )

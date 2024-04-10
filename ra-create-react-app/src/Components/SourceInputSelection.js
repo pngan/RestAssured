@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import { useApp } from "../AppProvider";
 
-const SourceInputSelection = () => {
+const SourceInputSelection = (props) => {
   const [fileOrUrl, setFileOrUrl] = useState('');
   const { loadOpenApiContentFromFileOrRequest } = useApp();
   const handleFilePicker = (event) => { 
@@ -15,7 +15,12 @@ const SourceInputSelection = () => {
 
   const loadOpenApiContent = async (event) => {
     const data = await loadOpenApiContentFromFileOrRequest(fileOrUrl);
-    console.debug(data);  
+    
+    if(data == undefined) {
+      props.setData([]);
+    } else {
+      props.setData(data);
+    } 
   };
 
   return (

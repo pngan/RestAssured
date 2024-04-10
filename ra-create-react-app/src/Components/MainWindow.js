@@ -1,4 +1,4 @@
-import React from "react"; 
+import React, {useState} from "react"; 
 import styled from "styled-components";
 import SourceInputSelection from "./SourceInputSelection";
 import EndpointsList from "./EndpointsList";
@@ -9,11 +9,13 @@ const Container = styled.div`
 `
 
 const MainWindow = () => {
+  const [data, setData] = useState([]);
+
     return (
       <Container className="container">
         <div className='row'>
           <div className='col-6'>
-            <SourceInputSelection/>
+            <SourceInputSelection setData={setData}/>
           </div>
           <div className='col-1'/>
           <div className='col-5'>
@@ -24,7 +26,7 @@ const MainWindow = () => {
           </div>
         <div className="row">
             <div className="col-6">
-                <EndpointsList/>
+                <EndpointsList data={data}/>
             </div>
             <div className="col-6">
                 <RightPanel/>
