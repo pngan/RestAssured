@@ -30,7 +30,7 @@ export const CheckboxLabel = styled.label `
   margin-left: 10px
 `;
 
-const LeftPanel = ({data}) => {
+const EndpointsList = ({data}) => {
   const [selectedEndpoints, setSelectedEndpoints] = useState([])
   
 
@@ -39,9 +39,12 @@ const LeftPanel = ({data}) => {
             <Title>Endpoints to Convert</Title>
             <Content>
                 {data.length > 0 && <SelectAllCheckbox data={data} setSelectedEndpoints={setSelectedEndpoints}/>}
-                {data.map((endpoint) => <EndpointCheckbox selectedEndpoints={selectedEndpoints} setSelectedEndpoints={setSelectedEndpoints} data={endpoint}/>)}
+                {data.map((endpoint) => 
+                <React.Fragment key={endpoint.id}>
+                  <EndpointCheckbox selectedEndpoints={selectedEndpoints} setSelectedEndpoints={setSelectedEndpoints} data={endpoint}/>
+                </React.Fragment>)}
             </Content>
         </Wrapper>
     )
 };
-export default LeftPanel;
+export default EndpointsList;

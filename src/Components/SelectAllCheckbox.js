@@ -18,7 +18,7 @@ const SelectAllCheckbox = ({ data, setSelectedEndpoints }) => {
     return(
       <div>
         <input onChange={handleSelectAll} id="select_all_checkbox" type='checkbox' checked={selectAll}/>
-        <CheckboxLabel for="select_all_checkbox">Select all</CheckboxLabel>
+        <CheckboxLabel htmlFor="select_all_checkbox">Select all</CheckboxLabel>
       </div>
     )
   }

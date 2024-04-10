@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { CheckboxLabel } from './EndpointsList';
 
 
-const EndpointCheckbox = ({data, selectedEndpoints, setSelectedEndpoints}) => {
+const EndpointCheckbox = ({key, data, selectedEndpoints, setSelectedEndpoints}) => {
   const handleOnChange = (event) => {
     const {value} = event.target;
     const isChecked = event.target.checked
@@ -15,10 +15,11 @@ const EndpointCheckbox = ({data, selectedEndpoints, setSelectedEndpoints}) => {
       setSelectedEndpoints(filteredEndpoints)
     }
   }
+
   return (
-  <div key={data.id}>
+  <div>
     <input onChange={handleOnChange} id={data.id} type='checkbox' checked={selectedEndpoints.includes(data.id)} value={data.id}/>
-    <CheckboxLabel for={data.id}>{`${data.method} ${data.path}`} </CheckboxLabel>
+    <CheckboxLabel htmlFor={data.id}>{`${data.method} ${data.path}`} </CheckboxLabel>
   </div>)
 }
 
