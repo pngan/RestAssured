@@ -49,7 +49,7 @@ class RestClientConverter {
             //     try {
             //         // console.log(ep.requestBody.content);
             //         for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
-            //             console.log('Content-Type: ' + enctype);
+            //             stringReturn += 'Content-Type: ' + enctype;
 
             //             let schema = content['schema'] ?? null;
             //             let properties;
@@ -72,7 +72,7 @@ class RestClientConverter {
             //                     for (const [key, property] of Object.entries(properties)) {
             //                         body[key] = property['type'] ?? '';
             //                     }
-            //                     console.log('\n' + JSON.stringify(body, null, 4));
+            //                     stringReturn += '\n' + JSON.stringify(body, null, 4);
             //                     break;
             //                 default:
             //             }
@@ -94,43 +94,47 @@ class BrunoConverter {
     convert(data) {
         let arrEndpoints = data.arrEndpoints;
         let refs = data.refs;
+        let stringReturn = '';
+
+        // TODO: 1) CHANGE CONSOLE TO stringReturn 2) look into splitting individual files for zip output
+
 
         for (let ep of arrEndpoints) {
-            console.log('meta {');
-            console.log('  name: ' + ep.summary);
-            console.log('  type: http');
-            console.log('}\n');
+            stringReturn += 'meta {';
+            stringReturn += '  name: ' + ep.summary;
+            stringReturn += '  type: http';
+            stringReturn += '}\n';
             switch (ep.method) {
                 case 'GET':
-                    console.log('get {');
-                    console.log('  url: ' + ep.path);
-                    console.log('  body: none');
-                    console.log('  auth: none');
-                    console.log('}\n');
+                    stringReturn += 'get {';
+                    stringReturn += '  url: ' + ep.path;
+                    stringReturn += '  body: none';
+                    stringReturn += '  auth: none';
+                    stringReturn += '}\n';
                     break;
 
                 case 'POST':
-                    console.log('post {');
-                    console.log('  url: ' + ep.path);
-                    console.log('}\n');
+                    stringReturn += 'post {';
+                    stringReturn += '  url: ' + ep.path;
+                    stringReturn += '}\n';
                     break;
 
                 case 'PUT':
-                    console.log('put {');
-                    console.log('  url: ' + ep.path);
-                    console.log('}\n');
+                    stringReturn += 'put {';
+                    stringReturn += '  url: ' + ep.path;
+                    stringReturn += '}\n';
                     break;
 
                 case 'PATCH':
-                    console.log('patch {');
-                    console.log('  url: ' + ep.path);
-                    console.log('}\n');
+                    stringReturn += 'patch {';
+                    stringReturn += '  url: ' + ep.path;
+                    stringReturn += '}\n';
                     break;
 
                 case 'DELETE':
-                    console.log('delete {');
-                    console.log('  url: ' + ep.path);
-                    console.log('}\n');
+                    stringReturn += 'delete {';
+                    stringReturn += '  url: ' + ep.path;
+                    stringReturn += '}\n';
                     break;
 
             }
@@ -138,52 +142,53 @@ class BrunoConverter {
             // Output query parameters
             let required_params = ep.query_parameters.filter((p) => p.required === true);
             if (required_params.length > 0) {
-                console.log('\nquery {');
+                stringReturn += '\nquery {';
                 for (const param of required_params) {
-                    console.log("  " + param.name + ": " + param.type);
+                    stringReturn += '  ' + param.name + ': ' + param.type;
                 }
-                console.log('}\n');
+                stringReturn += '}\n';
             }
 
             // Output request body parameters
-            if (ep.requestBody && ep.requestBody.content) {
-                try {
-                    // console.log(ep.requestBody.content);
-                    for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
-                        let schema = content['schema'] ?? null;
-                        let properties;
-                        if (schema.$ref) {
-                            properties = refs.get(schema.$ref)?.properties ?? null;
-                        } else {
-                            properties = schema['properties'] ?? null;
-                        }
-                        // console.log(properties);
+            // if (ep.requestBody && ep.requestBody.content) {
+            //     try {
+            //         // console.log(ep.requestBody.content);
+            //         for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
+            //             let schema = content['schema'] ?? null;
+            //             let properties;
+            //             if (schema.$ref) {
+            //                 properties = refs.get(schema.$ref)?.properties ?? null;
+            //             } else {
+            //                 properties = schema['properties'] ?? null;
+            //             }
+            //             // console.log(properties);
 
-                        // TODO: if not one of the recognized content-types, do we skip. Can do different handling for multipart/form-data and application/json for example
-                        switch (enctype) {
-                            case 'multipart/form-data':
-                                // for (const [key, property] of Object.entries(properties)) {
-                                //     console.log(key);
-                                // }
-                                break;
-                            case 'application/json':
-                                let body = [];
-                                for (const [key, property] of Object.entries(properties)) {
-                                    body.push('  ' + key + ': \'' + (property['type'] ?? '') + '\'');
-                                }
-                                console.log('body {\n' + body.join('\n') + '\n}');
-                                break;
-                            default:
-                        }
-                    }
-                } catch (err) {
-                    console.log('Unable to parse request body for ' + ep.method + ' ' + ep.path);
-                    console.log(err);
-                }
-            }
+            //             // TODO: if not one of the recognized content-types, do we skip. Can do different handling for multipart/form-data and application/json for example
+            //             switch (enctype) {
+            //                 case 'multipart/form-data':
+            //                     // for (const [key, property] of Object.entries(properties)) {
+            //                     //     console.log(key);
+            //                     // }
+            //                     break;
+            //                 case 'application/json':
+            //                     let body = [];
+            //                     for (const [key, property] of Object.entries(properties)) {
+            //                         body.push('  ' + key + ': \'' + (property['type'] ?? '') + '\'');
+            //                     }
+            //                     stringReturn += 'body {\n' + body.join('\n') + '\n}';
+            //                     break;
+            //                 default:
+            //             }
+            //         }
+            //     } catch (err) {
+            //         console.log('Unable to parse request body for ' + ep.method + ' ' + ep.path);
+            //         console.log(err);
+            //     }
+            // }
 
-            console.log('\n----------------------------------------\n\n');
+            stringReturn += '\n----------------------------------------\n\n';
         }
+        return stringReturn;
     };
 }
 
