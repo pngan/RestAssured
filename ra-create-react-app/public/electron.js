@@ -29,15 +29,12 @@ app.whenReady().then(() => {
   app.on("activate", function () {
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
-  ipcMain.handle('triggerFileLoad', async (_event, data) => {
-    // console.log(data);
-    let strDocPath = '../converter/data/api-docs.yaml';
+  ipcMain.handle('trigger-file-load', async (_event, data) => {
+    console.log(data);
+    let strDocPath = '../converter/data/api-docs.yaml'; // = data;
     let response = await getOpenApiEndpoints.getOpenApiEndpoints(strDocPath);
-    win.webContents.send('file-data-loaded', response.data);
+    return response.data;
   });
-  // ipcMain.on('file-data-loaded', (_event, value) => {
-  //   console.log(value) // will print value to Node console
-  // })
 });
 
 app.on("window-all-closed", function () {

@@ -6,14 +6,7 @@ process.once("loaded", () => {
 );
 
 contextBridge.exposeInMainWorld('convert', {
-    triggerFileLoad: (args) => {
-        ipcRenderer.invoke('triggerFileLoad', args);
+    triggerFileLoad: async (args) => {
+        return await ipcRenderer.invoke('trigger-file-load', args);
     },
-    fileLoadData: (callback) => {
-        ipcRenderer.on('file-data-loaded', (_event, value) => {
-            callback(value)
-        })
-    },
-
-
 });

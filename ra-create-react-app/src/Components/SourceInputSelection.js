@@ -3,7 +3,7 @@ import { useApp } from "../AppProvider";
 
 const SourceInputSelection = () => {
   const [fileOrUrl, setFileOrUrl] = useState('');
-  const { getFileOrURLData } = useApp();
+  const { loadOpenApiContentFromFileOrRequest } = useApp();
   const handleFilePicker = (event) => { 
     setFileOrUrl(event.target?.value);
   }
@@ -13,11 +13,9 @@ const SourceInputSelection = () => {
     setFileOrUrl(event.target.value)
   }
 
-  const triggerConvert = async(event) => {
-    const data = getFileOrURLData(fileOrUrl).then((data) => {
+  const loadOpenApiContent = async (event) => {
+    const data = await loadOpenApiContentFromFileOrRequest(fileOrUrl);
     console.debug(data);  
-    });
-    
   };
 
   return (
@@ -25,7 +23,7 @@ const SourceInputSelection = () => {
       URL or File:
       <input type='text' onChange={updateSourceValue} value={fileOrUrl} />
       {/* <input id="selectedFile" onChange={handleFilePicker} type='file' /> */}
-      <button type="button" onClick={triggerConvert}>Load</button>
+      <button type="button" onClick={loadOpenApiContent}>Load</button>
     </label>
   );
 };
