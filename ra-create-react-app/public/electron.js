@@ -33,6 +33,7 @@ app.whenReady().then(() => {
     // strDocPath = '../converter/data/api-docs.yaml';
     // strDocPath = 'https://petstore3.swagger.io/api/v3/openapi.json'
     let response = await getOpenApiEndpoints.getOpenApiEndpoints(strDocPath);
+    console.debug(response);
     return response.data;
   });
 });

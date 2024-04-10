@@ -14,17 +14,13 @@ async function getOpenApiEndpoints(strDocPath) {
   try {
     let api = await OpenAPIParser.parse(strDocPath);
     arrEndpoints = [];
-
-
-    //console.log(api.components.schemas);
-
-
-    for (const [endpoint, methods] of Object.entries(api.paths)) {
-      for (const [method, data] of Object.entries(methods)) {
+    Object.entries(api.paths).forEach(([endpoint, methods], pathIndex) => {
+      Object.entries(methods).forEach(( [method, data], methodIndex ) => {
         data['method'] = method.toUpperCase();
         data['path'] = endpoint;
         data['is_selected'] = true;
         data['query_parameters'] = [];
+        data['id'] = `${pathIndex}_${methodIndex}_${Math.random().toString(8).slice(2)}`;
 
         // Parser query parameters
         if (data.parameters !== undefined) {
@@ -37,15 +33,12 @@ async function getOpenApiEndpoints(strDocPath) {
           }
         }
         arrEndpoints.push(data);
-      }
-    }
-
-    // console.log(arrEndpoints);
-
+      });
+    });
     return {response: 'success', data: arrEndpoints};
   } catch (err) {
-    console.log(err);
-    return {response: 'failed', data: "Unable to parse OpenApi document"};
+      console.log(err);
+      return {response: 'failed', data: "Unable to parse OpenApi document"};
   }
 }
 
