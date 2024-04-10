@@ -20,7 +20,7 @@ async function getOpenApiEndpoints(strDocPath) {
         data['path'] = endpoint;
         data['is_selected'] = true;
         data['query_parameters'] = [];
-        data['id'] = `${pathIndex}_${methodIndex}_${Math.random().toString(8).slice(2)}`;
+        data['id'] = `${pathIndex}${methodIndex}${Math.floor(Math.random() * 10000000).toString()}`;
 
         // Parser query parameters
         if (data.parameters !== undefined) {
