@@ -9,4 +9,7 @@ contextBridge.exposeInMainWorld('convert', {
     triggerFileLoad: async (args) => {
         return await ipcRenderer.invoke('trigger-file-load', args);
     },
+    convertSelectedEndpoints: async (args) => {
+        return await ipcRenderer.invoke('convert-selected-endpoints', args);
+    },
 });

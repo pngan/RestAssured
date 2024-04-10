@@ -6,11 +6,13 @@ const AppContext = React.createContext({});
 const AppProvider = ({children}) => {
 
   const loadOpenApiContentFromFileOrRequest = async (fileOrUrl) => await window.convert.triggerFileLoad(fileOrUrl);
-
+  
+  const convertSelectedEndpoints = async (endpointData, outputFormat) => await window.convert.convertSelectedEndpoints(endpointData, outputFormat);
 
   return (
     <AppContext.Provider value={{
-        loadOpenApiContentFromFileOrRequest
+        loadOpenApiContentFromFileOrRequest,
+        convertSelectedEndpoints
       }}>
       {children}
     </AppContext.Provider>

@@ -33,8 +33,15 @@ app.whenReady().then(() => {
     // strDocPath = '../converter/data/api-docs.yaml';
     // strDocPath = 'https://petstore3.swagger.io/api/v3/openapi.json'
     let response = await getOpenApiEndpoints.getOpenApiEndpoints(strDocPath);
-    console.debug(response);
-    return response.data;
+    return response.data.arrEndpoints;
+  });
+
+  ipcMain.handle('convert-selected-endpoints', async (_event, endpointData, outputFormat) => {
+    console.log('ye');  
+    let response = await getOpenApiEndpoints.getOpenApiEndpoints("https://petstore3.swagger.io/api/v3/openapi.json");
+    let converterCollection = new ConverterCollection.ConverterCollection();
+    let converter = converterCollection.getSelectedConverter();
+    converter.convert(response.data);
   });
 });
 

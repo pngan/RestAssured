@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SourceInputSelection from "./SourceInputSelection";
 import EndpointsList from "./EndpointsList";
 import RightPanel from "./RightPanel";
+import { useApp } from "../AppProvider";
 
 const Container = styled.div`
   margin-top: 50px;
@@ -10,13 +11,14 @@ const Container = styled.div`
 
 const MainWindow = () => {
   const [data, setData] = useState([]);
+  const { convertSelectedEndpoints } = useApp();
 
 
-
-  const convertOpenApi =  (event) => {
+  const convertOpenApi = async (event) => {
+    // TODO: get selected endpoints and output format
+    const data = await convertSelectedEndpoints({}, {});
     console.log(data);
   };
-
 
     return (
       <Container className="container">
