@@ -16,14 +16,14 @@ const Title = styled.span`
 
 `;
 
-const RightPanel = ({convertedData}) => {
+const Output = () => {
     return (
         <Wrapper>
             <Title>Output</Title>
             <Content>
-                {convertedData}
+                Right Panel here
             </Content>
         </Wrapper>
     )
 };
-export default RightPanel;
+export default Output;

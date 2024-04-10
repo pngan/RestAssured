@@ -37,11 +37,9 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle('convert-selected-endpoints', async (_event, endpointData, outputFormat) => {
-    console.log('ye');  
-    let response = await getOpenApiEndpoints.getOpenApiEndpoints("https://petstore3.swagger.io/api/v3/openapi.json");
     let converterCollection = new ConverterCollection.ConverterCollection();
     let converter = converterCollection.getSelectedConverter();
-    converter.convert(response.data);
+    return converter.convert(endpointData);
   });
 });
 

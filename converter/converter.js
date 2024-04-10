@@ -18,10 +18,11 @@ class RestClientConverter {
     convert(data) {
         let arrEndpoints = data.arrEndpoints;
         let refs = data.refs;
-
+        let stringReturn = '';
         for (const ep of arrEndpoints) {
-            console.log('\n### ' + ep.summary)
-            console.log(ep.method + ' ' + ep.path);
+            stringReturn += `### ${ep.summary}\n`;
+            stringReturn += `${ep.method} ${ep.path}\n`;
+            stringReturn += `\n`;
             switch (ep.method) {
                 case 'GET':
                     break;
@@ -38,46 +39,47 @@ class RestClientConverter {
 
             }
 
-            if (ep.requestBody && ep.requestBody.content) {
-                try {
-                    // console.log(ep.requestBody.content);
-                    for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
-                        console.log('Content-Type: ' + enctype);
+            // if (ep.requestBody && ep.requestBody.content) {
+            //     try {
+            //         // console.log(ep.requestBody.content);
+            //         for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
+            //             console.log('Content-Type: ' + enctype);
 
-                        let schema = content['schema'] ?? null;
-                        let properties;
-                        if (schema.$ref) {
-                            properties = refs.get(schema.$ref)?.properties ?? null;
-                        } else {
-                            properties = schema['properties'] ?? null;
-                        }
-                        // console.log(properties);
+            //             let schema = content['schema'] ?? null;
+            //             let properties;
+            //             if (schema.$ref) {
+            //                 properties = refs.get(schema.$ref)?.properties ?? null;
+            //             } else {
+            //                 properties = schema['properties'] ?? null;
+            //             }
+            //             // console.log(properties);
 
-                        // TODO: if not one of the recognized content-types, do we skip. Can do different handling for multipart/form-data and application/json for example
-                        switch (enctype) {
-                            case 'multipart/form-data':
-                                // for (const [key, property] of Object.entries(properties)) {
-                                //     console.log(key);
-                                // }
-                                break;
-                            case 'application/json':
-                                let body = {};
-                                for (const [key, property] of Object.entries(properties)) {
-                                    body[key] = property['type'] ?? '';
-                                }
-                                console.log('\n' + JSON.stringify(body, null, 4));
-                                break;
-                            default:
-                        }
-                    }
-                } catch (err) {
-                    console.log(err);
-                    // console.log('Unable to parse content for ' + ep.method + ' ' + ep.path);
-                }
-            }
+            //             // TODO: if not one of the recognized content-types, do we skip. Can do different handling for multipart/form-data and application/json for example
+            //             switch (enctype) {
+            //                 case 'multipart/form-data':
+            //                     // for (const [key, property] of Object.entries(properties)) {
+            //                     //     console.log(key);
+            //                     // }
+            //                     break;
+            //                 case 'application/json':
+            //                     let body = {};
+            //                     for (const [key, property] of Object.entries(properties)) {
+            //                         body[key] = property['type'] ?? '';
+            //                     }
+            //                     console.log('\n' + JSON.stringify(body, null, 4));
+            //                     break;
+            //                 default:
+            //             }
+            //         }
+            //     } catch (err) {
+            //         console.log(err);
+            //         // console.log('Unable to parse content for ' + ep.method + ' ' + ep.path);
+            //     }
+            // }
         }
-        console.log('\n\n');
-    };
+        stringReturn += '\n\n';
+        return stringReturn;
+    }
 }
 
 class BrunoConverter {
