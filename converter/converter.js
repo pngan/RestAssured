@@ -3,7 +3,7 @@ class ConverterCollection {
         this.converters.push(new RestClientConverter());
         this.converters.push(new BrunoConverter());
     }
-    
+
     converters = [];
 
     getSelectedConverter() {
@@ -13,83 +13,86 @@ class ConverterCollection {
 
 class RestClientConverter {
     name = 'Rest Client';
-    isSelected = false;
-    
-    convert(arrEndpoints) {
+    isSelected = true;
+
+    convert(data) {
+        let arrEndpoints = data.arrEndpoints;
+        let refs = data.refs;
+
         for (const ep of arrEndpoints) {
             console.log('\n### ' + ep.summary)
-            switch(ep.method) {
+            console.log(ep.method + ' ' + ep.path);
+            switch (ep.method) {
                 case 'GET':
-                    console.log('GET ' + ep.path);
                     break;
                 case 'POST':
-                    console.log('POST ' + ep.path);
                     // console.log(ep.requestBody.content[Object.keys(ep.requestBody.content)[0]]);
                     // let content = ep.requestBody.content[Object.keys(ep.requestBody.content)[0]] ?? null;
-
-                    try {
-                        // console.log(ep.requestBody.content);
-                        for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
-                            console.log('Content-Type: ' + enctype);
-
-                            let schema = content['schema'] ?? null;
-                            let properties = schema['properties'] ?? null;
-                            // console.log(properties);
-
-                            // TODO: if not one of the recognized content-types, do we skip. Can do different handling for multipart/form-data and application/json for example
-                            switch (enctype) {
-                                case 'multipart/form-data':
-                                    // for (const [key, property] of Object.entries(properties)) {
-                                    //     console.log(key);
-                                    // }
-                                    break;
-                                case 'application/json':
-                                    console.log(content);
-                                    break;
-                                default:
-                            }
-                        }
-                    } catch (err) {
-                        console.log('Unable to parse content for POST' + ep.path);
-                    }
                     break;
                 case 'PUT':
-                    try {
-                        console.log('PUT ' + ep.path);
-                        console.log('Content-Type: ' + Object.keys(ep.requestBody.content)[0]);
-                    } catch (err) {
-                        console.log('Unable to parse content for PUT' + ep.path);
-                    }
                     break;
-
                 case 'PATCH':
-                    try {
-                        console.log('PATCH ' + ep.path);
-                        console.log('Content-Type: ' + Object.keys(ep.requestBody.content)[0]);
-                    } catch (err) {
-                        console.log('Unable to parse content for PATCH' + ep.path);
-                    }
                     break;
-
                 case 'DELETE':
-                    console.log('DELETE ' + ep.path);
                     break;
 
             }
+
+            if (ep.requestBody && ep.requestBody.content) {
+                try {
+                    // console.log(ep.requestBody.content);
+                    for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
+                        console.log('Content-Type: ' + enctype);
+
+                        let schema = content['schema'] ?? null;
+                        let properties;
+                        if (schema.$ref) {
+                            properties = refs.get(schema.$ref)?.properties ?? null;
+                        } else {
+                            properties = schema['properties'] ?? null;
+                        }
+                        // console.log(properties);
+
+                        // TODO: if not one of the recognized content-types, do we skip. Can do different handling for multipart/form-data and application/json for example
+                        switch (enctype) {
+                            case 'multipart/form-data':
+                                // for (const [key, property] of Object.entries(properties)) {
+                                //     console.log(key);
+                                // }
+                                break;
+                            case 'application/json':
+                                let body = {};
+                                for (const [key, property] of Object.entries(properties)) {
+                                    body[key] = property['type'] ?? '';
+                                }
+                                console.log('\n' + JSON.stringify(body, null, 4));
+                                break;
+                            default:
+                        }
+                    }
+                } catch (err) {
+                    console.log(err);
+                    // console.log('Unable to parse content for ' + ep.method + ' ' + ep.path);
+                }
+            }
         }
+        console.log('\n\n');
     };
 }
 
 class BrunoConverter {
     name = "Bruno";
-    isSelected = true;
-    convert(arrEndpoints) {
+    isSelected = false;
+    convert(data) {
+        let arrEndpoints = data.arrEndpoints;
+        let refs = data.refs;
+
         for (let ep of arrEndpoints) {
             console.log('meta {');
             console.log('  name: ' + ep.summary);
             console.log('  type: http');
             console.log('}\n');
-            switch(ep.method) {
+            switch (ep.method) {
                 case 'GET':
                     console.log('get {');
                     console.log('  url: ' + ep.path);
@@ -132,6 +135,43 @@ class BrunoConverter {
                     console.log("  " + param.name + ": " + param.type);
                 }
                 console.log('}\n');
+            }
+
+            // Output request body parameters
+            if (ep.requestBody && ep.requestBody.content) {
+                try {
+                    // console.log(ep.requestBody.content);
+                    for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
+                        let schema = content['schema'] ?? null;
+                        let properties;
+                        if (schema.$ref) {
+                            properties = refs.get(schema.$ref)?.properties ?? null;
+                        } else {
+                            properties = schema['properties'] ?? null;
+                        }
+                        // console.log(properties);
+
+                        // TODO: if not one of the recognized content-types, do we skip. Can do different handling for multipart/form-data and application/json for example
+                        switch (enctype) {
+                            case 'multipart/form-data':
+                                // for (const [key, property] of Object.entries(properties)) {
+                                //     console.log(key);
+                                // }
+                                break;
+                            case 'application/json':
+                                let body = [];
+                                for (const [key, property] of Object.entries(properties)) {
+                                    body.push('  ' + key + ': \'' + (property['type'] ?? '') + '\'');
+                                }
+                                console.log('body {\n' + body.join('\n') + '\n}');
+                                break;
+                            default:
+                        }
+                    }
+                } catch (err) {
+                    console.log('Unable to parse request body for ' + ep.method + ' ' + ep.path);
+                    console.log(err);
+                }
             }
 
             console.log('\n----------------------------------------\n\n');
