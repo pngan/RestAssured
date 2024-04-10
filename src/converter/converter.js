@@ -9,6 +9,12 @@ class ConverterCollection {
     getSelectedConverter() {
         return this.converters.find((c) => c.isSelected === true);
     }
+
+    setSelectedConverter(name) {
+        for(let converter of this.converters) {
+            converter.isSelected = converter.name === name;
+        }
+    }
 }
 
 class RestClientConverter {

@@ -1,8 +1,8 @@
 const isDev = import('electron-is-dev');
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const getOpenApiEndpoints = require('../converter/getOpenApiEndpoints.js');
-const ConverterCollection = require('../converter/converter.js');
+const getOpenApiEndpoints = require('../src/converter/getOpenApiEndpoints.js')
+const ConverterCollection = require('../src/converter/converter.js');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
