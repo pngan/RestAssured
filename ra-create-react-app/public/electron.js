@@ -29,9 +29,9 @@ app.whenReady().then(() => {
   app.on("activate", function () {
   if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
-  ipcMain.handle('trigger-file-load', async (_event, data) => {
-    console.log(data);
-    let strDocPath = '../converter/data/api-docs.yaml'; // = data;
+  ipcMain.handle('trigger-file-load', async (_event, strDocPath) => {
+    // strDocPath = '../converter/data/api-docs.yaml';
+    // strDocPath = 'https://petstore3.swagger.io/api/v3/openapi.json'
     let response = await getOpenApiEndpoints.getOpenApiEndpoints(strDocPath);
     return response.data;
   });

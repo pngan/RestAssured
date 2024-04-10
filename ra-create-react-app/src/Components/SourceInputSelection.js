@@ -2,7 +2,7 @@ import React, {useContext, useState} from "react";
 import { useApp } from "../AppProvider";
 
 const SourceInputSelection = (props) => {
-  const [fileOrUrl, setFileOrUrl] = useState('');
+  const [fileOrUrl, setFileOrUrl] = useState('https://petstore3.swagger.io/api/v3/openapi.json');
   const { loadOpenApiContentFromFileOrRequest } = useApp();
   const handleFilePicker = (event) => { 
     setFileOrUrl(event.target?.value);
@@ -15,7 +15,7 @@ const SourceInputSelection = (props) => {
 
   const loadOpenApiContent = async (event) => {
     const data = await loadOpenApiContentFromFileOrRequest(fileOrUrl);
-    
+
     if(data == undefined) {
       props.setData([]);
     } else {
