@@ -1,5 +1,19 @@
 import React, {useState} from "react";
 import { useApp } from "../AppProvider";
+import styled from 'styled-components';
+import { InputWrapper, Label } from '../styles/sharedStyles'
+
+const LoadButton = styled.button`
+  margin-left: 10px;
+`
+
+const SourceInput = styled.input`
+`
+
+const InputButtonWrapper = styled.div`
+  text-align: left;
+  width: 100%;
+`
 
 const SourceInputSelection = (props) => {
   const [fileOrUrl, setFileOrUrl] = useState('https://petstore3.swagger.io/api/v3/openapi.json');
@@ -21,12 +35,13 @@ const SourceInputSelection = (props) => {
   };
 
   return (
-    <label>
-      URL or File:
-      <input type='text' onChange={updateSourceValue} value={fileOrUrl} />
-      {/* <input id="selectedFile" onChange={handleFilePicker} type='file' /> */}
-      <button type="button" onClick={loadOpenApiContent}>Load</button>
-    </label>
+    <InputWrapper>
+      <Label>URL or File:</Label>
+      <InputButtonWrapper>
+        <SourceInput type='text' onChange={updateSourceValue} value={fileOrUrl} />
+        <LoadButton type="button" onClick={loadOpenApiContent}>Load</LoadButton>
+      </InputButtonWrapper>
+    </InputWrapper>
   );
 };
 export default SourceInputSelection;
