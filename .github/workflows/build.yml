@@ -14,7 +14,7 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v1
 
-      - name: Setup tmate session
+      - name: Set-up tmate session
         uses: mxschmitt/action-tmate@v3
 
       - name: Install Node.js, NPM and Yarn
