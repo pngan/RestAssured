@@ -85,7 +85,7 @@ class RestClientConverter {
             // }
         }
         stringReturn += '\n\n';
-        return stringReturn;
+        return [stringReturn, {}];
     }
 }
 
@@ -96,46 +96,46 @@ class BrunoConverter {
         let arrEndpoints = data.arrEndpoints;
        // let refs = data.refs;
         let stringReturn = '';
-
-        // TODO: 1) CHANGE CONSOLE TO stringReturn 2) look into splitting individual files for zip output
-
+        let arrayReturn = [];
+        let objReturn = {};
+        let counter = 0;
 
         for (let ep of arrEndpoints) {
-            stringReturn += 'meta {';
-            stringReturn += '  name: ' + ep.summary;
-            stringReturn += '  type: http';
-            stringReturn += '}\n';
+            let thisStringReturn = 'meta {' + '\n';
+            thisStringReturn += '  name: ' + ep.summary + '\n';
+            thisStringReturn += '  type: http' + '\n';
+            thisStringReturn += '}\n\n';
             switch (ep.method) {
                 case 'GET':
-                    stringReturn += 'get {';
-                    stringReturn += '  url: ' + ep.path;
-                    stringReturn += '  body: none';
-                    stringReturn += '  auth: none';
-                    stringReturn += '}\n';
+                    thisStringReturn += 'get {' + '\n';
+                    thisStringReturn += '  url: ' + ep.path + '\n';
+                    thisStringReturn += '  body: none' + '\n';
+                    thisStringReturn += '  auth: none' + '\n';
+                    thisStringReturn += '}\n\n';
                     break;
 
                 case 'POST':
-                    stringReturn += 'post {';
-                    stringReturn += '  url: ' + ep.path;
-                    stringReturn += '}\n';
+                    thisStringReturn += 'post {' + '\n';
+                    thisStringReturn += '  url: ' + ep.path + '\n';
+                    thisStringReturn += '}\n\n';
                     break;
 
                 case 'PUT':
-                    stringReturn += 'put {';
-                    stringReturn += '  url: ' + ep.path;
-                    stringReturn += '}\n';
+                    thisStringReturn += 'put {' + '\n';
+                    thisStringReturn += '  url: ' + ep.path + '\n';
+                    thisStringReturn += '}\n\n';
                     break;
 
                 case 'PATCH':
-                    stringReturn += 'patch {';
-                    stringReturn += '  url: ' + ep.path;
-                    stringReturn += '}\n';
+                    thisStringReturn += 'patch {' + '\n';
+                    thisStringReturn += '  url: ' + ep.path + '\n';
+                    thisStringReturn += '}\n\n';
                     break;
 
                 case 'DELETE':
-                    stringReturn += 'delete {';
-                    stringReturn += '  url: ' + ep.path;
-                    stringReturn += '}\n';
+                    thisStringReturn += 'delete {' + '\n';
+                    thisStringReturn += '  url: ' + ep.path + '\n';
+                    thisStringReturn += '}\n\n';
                     break;
                 default:
                     // do nothing
@@ -144,11 +144,11 @@ class BrunoConverter {
             // Output query parameters
             let required_params = ep.query_parameters.filter((p) => p.required === true);
             if (required_params.length > 0) {
-                stringReturn += '\nquery {';
+                thisStringReturn += '\nquery {' + '\n';
                 for (const param of required_params) {
-                    stringReturn += '  ' + param.name + ': ' + param.type;
+                    thisStringReturn += '  ' + param.name + ': ' + param.type + '\n';
                 }
-                stringReturn += '}\n';
+                thisStringReturn += '}\n\n';
             }
 
             // Output request body parameters
@@ -177,7 +177,7 @@ class BrunoConverter {
             //                     for (const [key, property] of Object.entries(properties)) {
             //                         body.push('  ' + key + ': \'' + (property['type'] ?? '') + '\'');
             //                     }
-            //                     stringReturn += 'body {\n' + body.join('\n') + '\n}';
+            //                     thisStringReturn += 'body {\n' + body.join('\n') + '\n}';
             //                     break;
             //                 default:
             //             }
@@ -188,9 +188,13 @@ class BrunoConverter {
             //     }
             // }
 
-            stringReturn += '\n----------------------------------------\n\n';
+            arrayReturn.push(thisStringReturn);
+            objReturn[ep.summary.toLowerCase().replace(/ /g,"_").replace(/\W/g, '') + '-' + counter] = thisStringReturn;
+            counter++;
         }
-        return stringReturn;
+
+        stringReturn = arrayReturn.join('\n----------------------------------------\n\n');
+        return [stringReturn, objReturn];
     };
 }
 

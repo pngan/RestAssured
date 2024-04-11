@@ -13,6 +13,7 @@
     "cross-env": "^7.0.3",
     "electron-is-dev": "^3.0.1",
     "eslint": "^8.52.0",
+    "jszip": "^3.10.1",
     "openapi-parser": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -53,19 +54,19 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^8.52.0",
     "@eslint/eslintrc": "^3.0.2",
     "@eslint/js": "^9.0.0",
-    "nodemon": "^3.1.0",
     "concurrently": "^8.2.2",
+    "electron": "^29.2.0",
+    "electron-builder": "^24.13.3",
+    "eslint": "^8.52.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "globals": "^15.0.0",
-    "prettier": "^3.2.5",
-    "electron": "^29.2.0",
-    "electron-builder": "^24.13.3"
+    "nodemon": "^3.1.0",
+    "prettier": "^3.2.5"
   }
 }

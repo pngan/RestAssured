@@ -29,7 +29,7 @@ const Wrapper = styled.div`
 
 const MainWindow = () => {
   const [data, setData] = useState([]);
-  const [convertedData, setConvertedData] = useState('');
+  const [convertedData, setConvertedData] = useState([]);
   const [outputFormat, setOutputFormat] = useState('Rest Client');
   const { convertSelectedEndpoints } = useApp();
   const [selectedEndpoints, setSelectedEndpoints] = useState([])
@@ -67,7 +67,7 @@ const MainWindow = () => {
           </ButtonColWrapper>
 
           <RightCol>
-              <Output convertedData={convertedData}/>
+              <Output convertedData={convertedData[0]}/>
               <SaveWrapper>
                 <SaveButton convertedData={convertedData}/>
               </SaveWrapper>
