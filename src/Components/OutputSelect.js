@@ -1,13 +1,11 @@
 import React, { useMemo } from 'react';
 import { ConverterCollection } from "../converter/converter";
 import { InputWrapper, Label } from '../styles/sharedStyles'
-import styled from 'styled-components';
 
 const OutputSelect = ({setConvertedData, setOutputFormat}) => {
   const { converters } = new ConverterCollection();
   
   const handleOutputFormat = (event) => {
-     setConvertedData('');
      setOutputFormat(event.target.value);
    };
 

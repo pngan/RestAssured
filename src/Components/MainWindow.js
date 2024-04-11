@@ -1,14 +1,31 @@
-import React, { useMemo, useState } from "react"; 
+import React, { useState } from "react"; 
 import styled from "styled-components";
 import SourceInputSelection from "./SourceInputSelection";
 import EndpointsList from "./EndpointsList";
 import Output from "./Output";
 import { useApp } from "../AppProvider";
-import { ConverterCollection } from "../converter/converter";
+import OutputSelect from "./OutputSelect";
+import SaveButton from "./SaveButton";
+import { CenterCol, LeftCol, RightCol } from "../styles/sharedStyles";
+import ConvertButton from "./ConvertButton";
 
 const Container = styled.div`
-  margin-top: 50px;
+  margin-top: 20px;
 `
+const ButtonColWrapper = styled(CenterCol)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const SaveWrapper = styled.div`
+  width: 100%;
+  text-align: right;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+`;
 
 const MainWindow = () => {
   const [data, setData] = useState([]);
@@ -17,74 +34,48 @@ const MainWindow = () => {
   const { convertSelectedEndpoints } = useApp();
   const [selectedEndpoints, setSelectedEndpoints] = useState([])
 
-  const handleOutputFormat = (event) => {
-    setOutputFormat(event.target.value);
-  };
+  return (
+    <Container className="container">
+      <div className='row'>
+        <LeftCol>
+          <SourceInputSelection setData={setData}/>
+        </LeftCol>
 
-  const convertOpenApi = async (event) => {
-    const filteredData = data.filter((endpoint) => {
-      return selectedEndpoints.includes(endpoint.id);
-    });
-    const fileData = await convertSelectedEndpoints({arrEndpoints: filteredData}, outputFormat);
-    setConvertedData(fileData);
-  };
+        <CenterCol/>
 
-  const saveOutput = () => {
-      const blob = new Blob([convertedData], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.download = "output";
-      link.href = url;
-      link.click();
-  }
+        <RightCol>
+          <OutputSelect
+            setConvertedData={setConvertedData}
+            setOutputFormat={setOutputFormat}/>
+        </RightCol>
+        
+      <Wrapper>
+          <LeftCol>
+              <EndpointsList
+                setSelectedEndpoints={setSelectedEndpoints}
+                selectedEndpoints={selectedEndpoints}
+                data={data}/>
+          </LeftCol>
 
-  const { converters } = new ConverterCollection();
+          <ButtonColWrapper>
+            <ConvertButton 
+              data={data}
+              outputFormat={outputFormat}
+              convertSelectedEndpoints={convertSelectedEndpoints}
+              selectedEndpoints={selectedEndpoints}
+              setConvertedData={setConvertedData}/>
+          </ButtonColWrapper>
 
-  const converterList = useMemo(() => {
-    if(converters){
-      return converters.map((converter) => {
-        return (<option key={converter.name} value={converter.name}>{converter.name}</option>);
-      })
-    } else {
-      return (<option>None available</option>);
-    }
-  },[converters]);
-
-    return (
-      <Container className="container">
-        <div className='row'>
-          <div className='col-5'>
-            <SourceInputSelection setData={setData}/>
-          </div>
-
-          <div className='col-2'/>
-
-          <div className='col-5'>
-            <label>
-              Output Format:
-              <select onChange={handleOutputFormat}>
-                {converterList}
-              </select>
-            </label>
-          </div>
-          
-        <div className="row">
-            <div className="col-5">
-                <EndpointsList data={data} selectedEndpoints={selectedEndpoints} setSelectedEndpoints={setSelectedEndpoints} />
-            </div>
-
-            <div className="col-2">
-            <button type="button" onClick={convertOpenApi}>Convert</button>
-            </div>
-
-            <div className="col-5">
-                <Output convertedData={convertedData}/>
-                <button type="button" onClick={saveOutput}>Save</button>
-            </div>
-        </div>
-        </div>
-      </Container>
-    );
+          <RightCol>
+              <Output convertedData={convertedData}/>
+              <SaveWrapper>
+                <SaveButton convertedData={convertedData}/>
+              </SaveWrapper>
+          </RightCol>
+      </Wrapper>
+      </div>
+    </Container>
+  );
 };
 
 export default MainWindow;
