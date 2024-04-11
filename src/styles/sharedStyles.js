@@ -10,3 +10,21 @@ export const InputWrapper = styled.div`
   flex-direction: column;
   width: 100%;
 `
+
+export const LeftCol = styled.div`
+  width: 45%;
+  padding-right: 20px;
+`;
+
+export const CenterCol = styled.div`
+  width: 15%;
+`;
+
+export const RightCol = styled.div`
+  width: 40%;
+  padding-left: 20px;
+`;
+
+export const DataWindow = styled.div`
+  border-width: 3px;
+`
