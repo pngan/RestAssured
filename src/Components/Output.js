@@ -10,7 +10,7 @@ const Wrapper = styled.section`
 const Content = styled(DataWindow)`
   padding: 4em;
   width: 100%;
-  height: 350px;
+  height: 400px;
   box-shadow: 0px 0.5px 1px #888888;
   border-radius: 6px;
   margin-top: 10px;

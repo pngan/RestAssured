@@ -12,12 +12,12 @@ export const InputWrapper = styled.div`
 `
 
 export const LeftCol = styled.div`
-  width: 45%;
+  width: 47%;
   padding-right: 20px;
 `;
 
 export const CenterCol = styled.div`
-  width: 15%;
+  width: 13%;
 `;
 
 export const RightCol = styled.div`
