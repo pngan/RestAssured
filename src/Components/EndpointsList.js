@@ -30,8 +30,8 @@ export const CheckboxLabel = styled.label `
   margin-left: 10px
 `;
 
-const EndpointsList = ({data}) => {
-  const [selectedEndpoints, setSelectedEndpoints] = useState([])
+const EndpointsList = ({data, selectedEndpoints, setSelectedEndpoints}) => {
+  
   
 
   return (
