@@ -101,39 +101,39 @@ class BrunoConverter {
         let counter = 0;
 
         for (let ep of arrEndpoints) {
-            let thisStringReturn = 'meta {' + '\n';
+            let thisStringReturn = 'meta {\n';
             thisStringReturn += '  name: ' + ep.summary + '\n';
-            thisStringReturn += '  type: http' + '\n';
+            thisStringReturn += '  type: http\n';
             thisStringReturn += '}\n\n';
             switch (ep.method) {
                 case 'GET':
-                    thisStringReturn += 'get {' + '\n';
+                    thisStringReturn += 'get {\n';
                     thisStringReturn += '  url: ' + ep.path + '\n';
-                    thisStringReturn += '  body: none' + '\n';
-                    thisStringReturn += '  auth: none' + '\n';
+                    thisStringReturn += '  body: none\n';
+                    thisStringReturn += '  auth: none\n';
                     thisStringReturn += '}\n\n';
                     break;
 
                 case 'POST':
-                    thisStringReturn += 'post {' + '\n';
+                    thisStringReturn += 'post {\n';
                     thisStringReturn += '  url: ' + ep.path + '\n';
                     thisStringReturn += '}\n\n';
                     break;
 
                 case 'PUT':
-                    thisStringReturn += 'put {' + '\n';
+                    thisStringReturn += 'put {\n';
                     thisStringReturn += '  url: ' + ep.path + '\n';
                     thisStringReturn += '}\n\n';
                     break;
 
                 case 'PATCH':
-                    thisStringReturn += 'patch {' + '\n';
+                    thisStringReturn += 'patch {\n';
                     thisStringReturn += '  url: ' + ep.path + '\n';
                     thisStringReturn += '}\n\n';
                     break;
 
                 case 'DELETE':
-                    thisStringReturn += 'delete {' + '\n';
+                    thisStringReturn += 'delete {\n';
                     thisStringReturn += '  url: ' + ep.path + '\n';
                     thisStringReturn += '}\n\n';
                     break;
@@ -144,7 +144,7 @@ class BrunoConverter {
             // Output query parameters
             let required_params = ep.query_parameters.filter((p) => p.required === true);
             if (required_params.length > 0) {
-                thisStringReturn += '\nquery {' + '\n';
+                thisStringReturn += '\nquery {\n';
                 for (const param of required_params) {
                     thisStringReturn += '  ' + param.name + ': ' + param.type + '\n';
                 }
