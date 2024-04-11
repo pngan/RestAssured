@@ -1,6 +1,6 @@
 {
   "name": "RestAssured",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "git@github.com:pngan/RestAssured.git",
   "license": "MIT",
   "main": "public/electron.js",
