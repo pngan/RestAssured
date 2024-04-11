@@ -1,6 +1,6 @@
 {
   "name": "RestAssured",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "git@github.com:pngan/RestAssured.git",
   "license": "MIT",
   "main": "public/electron.js",
@@ -10,15 +10,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.3.3",
-    "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
-    "electron": "^29.2.0",
-    "eslint": "^8.52.0",
-    "prettier": "^3.2.5",
-    "prettier-plugin-sort-json": "^4.0.0",
-    "electron-builder": "^24.13.3",
     "electron-is-dev": "^3.0.1",
-    "nodemon": "^3.1.0",
+    "eslint": "^8.52.0",
     "openapi-parser": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -62,12 +56,16 @@
     "eslint": "^8.52.0",
     "@eslint/eslintrc": "^3.0.2",
     "@eslint/js": "^9.0.0",
+    "nodemon": "^3.1.0",
+    "concurrently": "^8.2.2",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "globals": "^15.0.0",
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "electron": "^29.2.0",
+    "electron-builder": "^24.13.3"
   }
 }

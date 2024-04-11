@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import styled from 'styled-components'
+import React from 'react';
 import { CheckboxLabel } from './EndpointsList';
-
 
 const EndpointCheckbox = ({key, data, selectedEndpoints, setSelectedEndpoints}) => {
   const handleOnChange = (event) => {

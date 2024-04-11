@@ -132,3 +132,6 @@ yarn.lock
 
 # phpstorm/IDE dirs
 .idea
+
+# build output folder
+build/
