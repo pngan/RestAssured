@@ -48,6 +48,7 @@ const MainWindow = () => {
             setConvertedData={setConvertedData}
             setOutputFormat={setOutputFormat}/>
         </RightCol>
+      </div>
         
       <Wrapper>
           <LeftCol>
@@ -73,7 +74,6 @@ const MainWindow = () => {
               </SaveWrapper>
           </RightCol>
       </Wrapper>
-      </div>
     </Container>
   );
 };
