@@ -4,7 +4,7 @@ import SourceInputSelection from "./SourceInputSelection";
 import EndpointsList from "./EndpointsList";
 import Output from "./Output";
 import { useApp } from "../AppProvider";
-import { ConverterCollection } from "../converter/converter";
+import OutputSelect from "./OutputSelect";
 
 const Container = styled.div`
   margin-top: 50px;
@@ -16,10 +16,7 @@ const MainWindow = () => {
   const [outputFormat, setOutputFormat] = useState('Rest Client');
   const { convertSelectedEndpoints } = useApp();
 
-  const handleOutputFormat = (event) => {
-    setConvertedData('');
-    setOutputFormat(event.target.value);
-  };
+ 
 
   const convertOpenApi = async (event) => {
     const fileData = await convertSelectedEndpoints({arrEndpoints: data}, outputFormat);
@@ -35,17 +32,7 @@ const MainWindow = () => {
       link.click();
   }
 
-  const { converters } = new ConverterCollection();
 
-  const converterList = useMemo(() => {
-    if(converters){
-      return converters.map((converter) => {
-        return (<option key={converter.name} value={converter.name}>{converter.name}</option>);
-      })
-    } else {
-      return (<option>None available</option>);
-    }
-  },[converters]);
 
     return (
       <Container className="container">
@@ -54,15 +41,10 @@ const MainWindow = () => {
             <SourceInputSelection setData={setData}/>
           </div>
 
-          <div className='col-2'/>
+          <div className='col-sm-2'/>
 
           <div className='col-5'>
-            <label>
-              Output Format:
-              <select onChange={handleOutputFormat}>
-                {converterList}
-              </select>
-            </label>
+            <OutputSelect setConvertedData={setConvertedData} setOutputFormat={setOutputFormat}/>
           </div>
           
         <div className="row">
@@ -71,7 +53,7 @@ const MainWindow = () => {
             </div>
 
             <div className="col-2">
-            <button type="button" onClick={convertOpenApi}>Convert</button>
+            <button type="button" onClick={convertOpenApi}>Convert =></button>
             </div>
 
             <div className="col-5">
