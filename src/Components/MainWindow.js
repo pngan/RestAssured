@@ -4,7 +4,7 @@ import SourceInputSelection from "./SourceInputSelection";
 import EndpointsList from "./EndpointsList";
 import Output from "./Output";
 import { useApp } from "../AppProvider";
-import OutputSelect from "./OutputSelect";
+import { ConverterCollection } from "../converter/converter";
 
 const Container = styled.div`
   margin-top: 50px;
@@ -15,11 +15,17 @@ const MainWindow = () => {
   const [convertedData, setConvertedData] = useState('');
   const [outputFormat, setOutputFormat] = useState('Rest Client');
   const { convertSelectedEndpoints } = useApp();
+  const [selectedEndpoints, setSelectedEndpoints] = useState([])
 
- 
+  const handleOutputFormat = (event) => {
+    setOutputFormat(event.target.value);
+  };
 
   const convertOpenApi = async (event) => {
-    const fileData = await convertSelectedEndpoints({arrEndpoints: data}, outputFormat);
+    const filteredData = data.filter((endpoint) => {
+      return selectedEndpoints.includes(endpoint.id);
+    });
+    const fileData = await convertSelectedEndpoints({arrEndpoints: filteredData}, outputFormat);
     setConvertedData(fileData);
   };
 
@@ -32,7 +38,17 @@ const MainWindow = () => {
       link.click();
   }
 
+  const { converters } = new ConverterCollection();
 
+  const converterList = useMemo(() => {
+    if(converters){
+      return converters.map((converter) => {
+        return (<option key={converter.name} value={converter.name}>{converter.name}</option>);
+      })
+    } else {
+      return (<option>None available</option>);
+    }
+  },[converters]);
 
     return (
       <Container className="container">
@@ -41,19 +57,24 @@ const MainWindow = () => {
             <SourceInputSelection setData={setData}/>
           </div>
 
-          <div className='col-sm-2'/>
+          <div className='col-2'/>
 
           <div className='col-5'>
-            <OutputSelect setConvertedData={setConvertedData} setOutputFormat={setOutputFormat}/>
+            <label>
+              Output Format:
+              <select onChange={handleOutputFormat}>
+                {converterList}
+              </select>
+            </label>
           </div>
           
         <div className="row">
             <div className="col-5">
-                <EndpointsList data={data}/>
+                <EndpointsList data={data} selectedEndpoints={selectedEndpoints} setSelectedEndpoints={setSelectedEndpoints} />
             </div>
 
             <div className="col-2">
-            <button type="button" onClick={convertOpenApi}>Convert =></button>
+            <button type="button" onClick={convertOpenApi}>Convert</button>
             </div>
 
             <div className="col-5">
