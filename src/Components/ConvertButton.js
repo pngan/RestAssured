@@ -21,7 +21,7 @@ const ConvertButton = ({
   };
 
   return (
-    <Button type="button" onClick={convertOpenApi}>{`Convert =>`}</Button>
+    <Button className='btn btn-secondary btn-sm' type="button" onClick={convertOpenApi}>{`Convert =>`}</Button>
   );
 };
 

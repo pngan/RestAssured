@@ -28,7 +28,7 @@ const OutputSelect = ({setConvertedData, setOutputFormat}) => {
   return (
     <InputWrapper>
       <Label>Output Format:</Label>
-      <Select onChange={handleOutputFormat}>
+      <Select className='form-select form-select-sm mb-3' onChange={handleOutputFormat}>
         {converterList}
       </Select>
     </InputWrapper>
