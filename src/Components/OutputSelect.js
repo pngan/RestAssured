@@ -1,6 +1,12 @@
 import React, { useMemo } from 'react';
 import { ConverterCollection } from "../converter/converter";
 import { InputWrapper, Label } from '../styles/sharedStyles'
+import styled from 'styled-components';
+
+const Select = styled.select`
+  height: 30px;
+  width: 100%
+`;
 
 const OutputSelect = ({setConvertedData, setOutputFormat}) => {
   const { converters } = new ConverterCollection();
@@ -22,9 +28,9 @@ const OutputSelect = ({setConvertedData, setOutputFormat}) => {
   return (
     <InputWrapper>
       <Label>Output Format:</Label>
-      <select onChange={handleOutputFormat}>
+      <Select onChange={handleOutputFormat}>
         {converterList}
-      </select>
+      </Select>
     </InputWrapper>
   )
 }
