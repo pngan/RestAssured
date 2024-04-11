@@ -11,6 +11,7 @@ import ConvertButton from "./ConvertButton";
 
 const Container = styled.div`
   margin-top: 20px;
+  height: 100%;
 `
 const ButtonColWrapper = styled(CenterCol)`
   display: flex;
@@ -23,8 +24,10 @@ const SaveWrapper = styled.div`
   text-align: right;
 `;
 
-const Wrapper = styled.div`
+const DataWrapper = styled.div`
+  height: 100%;
   display: flex;
+  align-items: center;
 `;
 
 const MainWindow = () => {
@@ -48,8 +51,9 @@ const MainWindow = () => {
             setConvertedData={setConvertedData}
             setOutputFormat={setOutputFormat}/>
         </RightCol>
+      </div>
         
-      <Wrapper>
+      <DataWrapper>
           <LeftCol>
               <EndpointsList
                 setSelectedEndpoints={setSelectedEndpoints}
@@ -68,12 +72,11 @@ const MainWindow = () => {
 
           <RightCol>
               <Output convertedData={convertedData[0]}/>
-              <SaveWrapper>
-                <SaveButton convertedData={convertedData}/>
-              </SaveWrapper>
           </RightCol>
-      </Wrapper>
-      </div>
+        </DataWrapper>
+        <SaveWrapper>
+          <SaveButton convertedData={convertedData}/>
+        </SaveWrapper>
     </Container>
   );
 };

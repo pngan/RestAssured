@@ -13,14 +13,12 @@ const FileInput = styled.input`
   display: none;
 `
 const SourceInput = styled.input`
-  flex-basis: 50px;
 `
 
 const InputButtonWrapper = styled.div`
+  position: relative;
   display: flex;
-  text-align: left;
   width: 100%;
-  box-sizing: border-box;
 `
 
 const SourceInputSelection = (props) => {
@@ -53,8 +51,8 @@ const SourceInputSelection = (props) => {
   return (
     <InputWrapper>
       <Label>URL or File:</Label>
-      <InputButtonWrapper>
-        <SourceInput className='form-form-control-sm' type='text' onChange={updateSourceValue} value={fileOrUrl} />
+      <InputButtonWrapper >
+        <SourceInput className='input-group form-control-sm' type='text' onChange={updateSourceValue} value={fileOrUrl} />
         <FileInput onChange={fileInputSelection} type={'file'} ref={inputElement} />
         <BrowseButton className="input-group-text btn-outline-secondary btn-sm" onClick={fileUploadSelect}>Browse</BrowseButton>
         <LoadButton className="input-group-text btn-outline-secondary btn-sm" type="button" onClick={loadOpenApiContent}>Load</LoadButton>
