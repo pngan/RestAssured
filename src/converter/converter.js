@@ -23,7 +23,7 @@ class RestClientConverter {
 
     convert(data) {
         let arrEndpoints = data.arrEndpoints;
-        let refs = data.refs;
+     //   let refs = data.refs;
         let stringReturn = '';
         for (const ep of arrEndpoints) {
             stringReturn += `### ${ep.summary}\n`;
@@ -42,7 +42,8 @@ class RestClientConverter {
                     break;
                 case 'DELETE':
                     break;
-
+                default:
+                    // do nothing
             }
 
             // if (ep.requestBody && ep.requestBody.content) {
@@ -93,7 +94,7 @@ class BrunoConverter {
     isSelected = false;
     convert(data) {
         let arrEndpoints = data.arrEndpoints;
-        let refs = data.refs;
+       // let refs = data.refs;
         let stringReturn = '';
 
         // TODO: 1) CHANGE CONSOLE TO stringReturn 2) look into splitting individual files for zip output
@@ -136,7 +137,8 @@ class BrunoConverter {
                     stringReturn += '  url: ' + ep.path;
                     stringReturn += '}\n';
                     break;
-
+                default:
+                    // do nothing
             }
 
             // Output query parameters
