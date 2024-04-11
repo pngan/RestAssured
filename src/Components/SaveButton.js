@@ -32,7 +32,7 @@ const SaveButton = ({ convertedData }) => {
       }
   }
   return (
-    <Button type="button" onClick={saveOutput}>Save</Button>
+    <Button className='btn btn-secondary btn-sm' type="button" onClick={saveOutput}>Save</Button>
   );
 };
 

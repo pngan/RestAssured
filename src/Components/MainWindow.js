@@ -31,8 +31,8 @@ const MainWindow = () => {
   const [data, setData] = useState([]);
   const [convertedData, setConvertedData] = useState([]);
   const [outputFormat, setOutputFormat] = useState('Rest Client');
-  const { convertSelectedEndpoints } = useApp();
   const [selectedEndpoints, setSelectedEndpoints] = useState([])
+  const { convertSelectedEndpoints } = useApp();
 
   return (
     <Container className="container">

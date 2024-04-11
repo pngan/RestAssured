@@ -4,24 +4,23 @@ import styled from 'styled-components';
 import { InputWrapper, Label } from '../styles/sharedStyles'
 
 const LoadButton = styled.button`
-  margin-left: 10px;
-  flex-grow: 1;
+  border-radius: 0 2px 2px 0 ;
 `
 const BrowseButton = styled.button`
-  margin-left: 10px;
-  flex-grow: 1;
+  border-radius: 0;
 `
 const FileInput = styled.input`
   display: none;
 `
 const SourceInput = styled.input`
-  flex-grow:10;
+  flex-basis: 50px;
 `
 
 const InputButtonWrapper = styled.div`
   display: flex;
   text-align: left;
   width: 100%;
+  box-sizing: border-box;
 `
 
 const SourceInputSelection = (props) => {
@@ -55,10 +54,10 @@ const SourceInputSelection = (props) => {
     <InputWrapper>
       <Label>URL or File:</Label>
       <InputButtonWrapper>
-        <SourceInput type='text' onChange={updateSourceValue} value={fileOrUrl} />
+        <SourceInput className='form-form-control-sm' type='text' onChange={updateSourceValue} value={fileOrUrl} />
         <FileInput onChange={fileInputSelection} type={'file'} ref={inputElement} />
-        <BrowseButton onClick={fileUploadSelect}>Browse</BrowseButton>
-        <LoadButton type="button" onClick={loadOpenApiContent}>Load</LoadButton>
+        <BrowseButton className="input-group-text btn-outline-secondary btn-sm" onClick={fileUploadSelect}>Browse</BrowseButton>
+        <LoadButton className="input-group-text btn-outline-secondary btn-sm" type="button" onClick={loadOpenApiContent}>Load</LoadButton>
       </InputButtonWrapper>
     </InputWrapper>
   );
