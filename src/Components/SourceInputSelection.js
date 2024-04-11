@@ -5,12 +5,15 @@ import { InputWrapper, Label } from '../styles/sharedStyles'
 
 const LoadButton = styled.button`
   margin-left: 10px;
+  flex-grow: 1;
 `
 
 const SourceInput = styled.input`
+  flex-grow:10;
 `
 
 const InputButtonWrapper = styled.div`
+  display: flex;
   text-align: left;
   width: 100%;
 `
