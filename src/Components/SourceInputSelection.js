@@ -31,12 +31,13 @@ const SourceInputSelection = (props) => {
   }
 
   const loadOpenApiContent = async (event) => {
-    const data = await loadOpenApiContentFromFileOrRequest(fileOrUrl);
-
-    if(data === undefined) {
+    const response = await loadOpenApiContentFromFileOrRequest(fileOrUrl);
+    if(response === undefined) {
       props.setData([]);
+      props.setSchemas([]);
     } else {
-      props.setData(data);
+      props.setData(response.arrEndpoints);
+      props.setSchemas(response.schemas);
     } 
   };
 

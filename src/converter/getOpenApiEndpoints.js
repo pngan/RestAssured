@@ -13,10 +13,9 @@ const OpenAPIParser = require("@readme/openapi-parser");
 async function getOpenApiEndpoints(strDocPath) {
   try {
     let api = await OpenAPIParser.parse(strDocPath);
-    let refs = await OpenAPIParser.resolve(strDocPath);
     arrEndpoints = [];
     Object.entries(api.paths).forEach(([endpoint, methods], pathIndex) => {
-      Object.entries(methods).forEach(( [method, data], methodIndex ) => {
+      Object.entries(methods).forEach(([method, data], methodIndex ) => {
         data['method'] = method.toUpperCase();
         data['path'] = endpoint;
         data['is_selected'] = true;
@@ -36,7 +35,10 @@ async function getOpenApiEndpoints(strDocPath) {
         arrEndpoints.push(data);
       });
     });
-    return { response: 'success', data: { arrEndpoints: arrEndpoints, refs: refs } };
+
+    let refs = await OpenAPIParser.resolve(strDocPath);
+    let schemas = Object.values(refs.values())[0]?.components?.schemas;
+    return { response: 'success', data: { arrEndpoints: arrEndpoints, schemas: schemas } };
   } catch (err) {
       console.log(err);
       return {response: 'failed', data: "Unable to parse OpenApi document"};

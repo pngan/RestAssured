@@ -31,7 +31,7 @@ app.whenReady().then(() => {
   });
   ipcMain.handle('trigger-file-load', async (_event, strDocPath) => {
     let response = await getOpenApiEndpoints.getOpenApiEndpoints(strDocPath);
-    return response.data.arrEndpoints;
+    return response.data;
   });
 
   ipcMain.handle('convert-selected-endpoints', async (_event, endpointData, outputFormat) => {

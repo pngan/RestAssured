@@ -23,7 +23,7 @@ const SaveButton = ({ convertedData }) => {
             link.href="data:application/zip;base64," + base64;
             link.click();
         });
-      } else {
+      } else if (typeof(convertedData[0]) === 'string' && convertedData[0].length > 0) {
         // Regular file
         const blob = new Blob([convertedData[0]], { type: "text/plain" });
         const url = URL.createObjectURL(blob);

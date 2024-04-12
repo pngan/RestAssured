@@ -23,12 +23,10 @@ class RestClientConverter {
 
     convert(data) {
         let arrEndpoints = data.arrEndpoints;
-     //   let refs = data.refs;
         let stringReturn = '';
         for (const ep of arrEndpoints) {
             stringReturn += `### ${ep.summary}\n`;
             stringReturn += `${ep.method} ${ep.path}\n`;
-            stringReturn += `\n`;
             switch (ep.method) {
                 case 'GET':
                     break;
@@ -46,45 +44,61 @@ class RestClientConverter {
                     // do nothing
             }
 
-            // if (ep.requestBody && ep.requestBody.content) {
-            //     try {
-            //         // console.log(ep.requestBody.content);
-            //         for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
-            //             stringReturn += 'Content-Type: ' + enctype;
+            if (ep.requestBody && ep.requestBody.content) {
+                try {
+                    // console.log(ep.requestBody.content);
+                    for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
+                        stringReturn += '\nContent-Type: ' + enctype;
 
-            //             let schema = content['schema'] ?? null;
-            //             let properties;
-            //             if (schema.$ref) {
-            //                 properties = refs.get(schema.$ref)?.properties ?? null;
-            //             } else {
-            //                 properties = schema['properties'] ?? null;
-            //             }
-            //             // console.log(properties);
+                        let schema = content['schema'] ?? null;
+                        let properties;
+                        if (schema.$ref && typeof data.schemas === 'object' && schema.$ref.replace('#/components/schemas/', '') in data.schemas) {
+                            properties = data.schemas[schema.$ref.replace('#/components/schemas/', '')].properties ?? null;
+                        } else if (schema?.type == 'array' && typeof data.schemas === 'object' && typeof schema?.items === 'object' && schema.items.$ref.replace('#/components/schemas/', '') in data.schemas) {
+                            properties = [data.schemas[schema.items.$ref.replace('#/components/schemas/', '')].properties] ?? null;
+                        } else {
+                            // TODO: handle nested array / objects
+                            properties = schema['properties'] ?? null;
+                        }                    
 
-            //             // TODO: if not one of the recognized content-types, do we skip. Can do different handling for multipart/form-data and application/json for example
-            //             switch (enctype) {
-            //                 case 'multipart/form-data':
-            //                     // for (const [key, property] of Object.entries(properties)) {
-            //                     //     console.log(key);
-            //                     // }
-            //                     break;
-            //                 case 'application/json':
-            //                     let body = {};
-            //                     for (const [key, property] of Object.entries(properties)) {
-            //                         body[key] = property['type'] ?? '';
-            //                     }
-            //                     stringReturn += '\n' + JSON.stringify(body, null, 4);
-            //                     break;
-            //                 default:
-            //             }
-            //         }
-            //     } catch (err) {
-            //         console.log(err);
-            //         // console.log('Unable to parse content for ' + ep.method + ' ' + ep.path);
-            //     }
-            // }
+                        // TODO: if not one of the recognized content-types, do we skip. Can do different handling for multipart/form-data and application/json for example
+                        switch (enctype) {
+                            case 'multipart/form-data':
+                                // for (const [key, property] of Object.entries(properties)) {
+                                //     console.log(key);
+                                // }
+                                break;
+                            case 'application/json':
+                                let body;
+                                if (properties) {
+                                    if (Array.isArray(properties)) {
+                                        body = [];
+                                        body[0] = {};
+                                        for (const [key, property] of Object.entries(properties[0])) {
+                                            body[0][key] = property['type'] ?? '';
+                                        }
+                                    } else {
+                                        body = {};
+                                        for (const [key, property] of Object.entries(properties)) {
+                                            body[key] = property['type'] ?? '';
+                                        }
+                                    }
+                                }
+                                stringReturn += '\n' + JSON.stringify(body, null, 4);
+                                break;
+                            case 'application/xml':
+                            case 'application/x-www-form-urlencoded':
+                            default:
+                        }
+                    }
+                } catch (err) {
+                    // console.log(err);
+                    // console.log('Unable to parse content for ' + ep.method + ' ' + ep.path);
+                }
+            }
+            stringReturn += '\n\n\n';
         }
-        stringReturn += '\n\n';
+        // console.log(stringReturn);
         return [stringReturn, {}];
     }
 }
@@ -94,7 +108,6 @@ class BrunoConverter {
     isSelected = false;
     convert(data) {
         let arrEndpoints = data.arrEndpoints;
-       // let refs = data.refs;
         let stringReturn = '';
         let arrayReturn = [];
         let objReturn = {};
@@ -152,41 +165,58 @@ class BrunoConverter {
             }
 
             // Output request body parameters
-            // if (ep.requestBody && ep.requestBody.content) {
-            //     try {
-            //         // console.log(ep.requestBody.content);
-            //         for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
-            //             let schema = content['schema'] ?? null;
-            //             let properties;
-            //             if (schema.$ref) {
-            //                 properties = refs.get(schema.$ref)?.properties ?? null;
-            //             } else {
-            //                 properties = schema['properties'] ?? null;
-            //             }
-            //             // console.log(properties);
+            if (ep.requestBody && ep.requestBody.content) {
+                try {
+                    // console.log(ep.requestBody.content);
+                    for (const [enctype, content] of Object.entries(ep.requestBody.content)) {
+                        stringReturn += '\nContent-Type: ' + enctype;
 
-            //             // TODO: if not one of the recognized content-types, do we skip. Can do different handling for multipart/form-data and application/json for example
-            //             switch (enctype) {
-            //                 case 'multipart/form-data':
-            //                     // for (const [key, property] of Object.entries(properties)) {
-            //                     //     console.log(key);
-            //                     // }
-            //                     break;
-            //                 case 'application/json':
-            //                     let body = [];
-            //                     for (const [key, property] of Object.entries(properties)) {
-            //                         body.push('  ' + key + ': \'' + (property['type'] ?? '') + '\'');
-            //                     }
-            //                     thisStringReturn += 'body {\n' + body.join('\n') + '\n}';
-            //                     break;
-            //                 default:
-            //             }
-            //         }
-            //     } catch (err) {
-            //         console.log('Unable to parse request body for ' + ep.method + ' ' + ep.path);
-            //         console.log(err);
-            //     }
-            // }
+                        let schema = content['schema'] ?? null;
+                        let properties;
+                        if (schema.$ref && typeof data.schemas === 'object' && schema.$ref.replace('#/components/schemas/', '') in data.schemas) {
+                            properties = data.schemas[schema.$ref.replace('#/components/schemas/', '')].properties ?? null;
+                        } else if (schema?.type == 'array' && typeof data.schemas === 'object' && typeof schema?.items === 'object' && schema.items.$ref.replace('#/components/schemas/', '') in data.schemas) {
+                            properties = [data.schemas[schema.items.$ref.replace('#/components/schemas/', '')].properties] ?? null;
+                        } else {
+                            // TODO: handle nested array / objects
+                            properties = schema['properties'] ?? null;
+                        }                    
+
+                        // TODO: if not one of the recognized content-types, do we skip. Can do different handling for multipart/form-data and application/json for example
+                        switch (enctype) {
+                            case 'multipart/form-data':
+                                // for (const [key, property] of Object.entries(properties)) {
+                                //     console.log(key);
+                                // }
+                                break;
+                            case 'application/json':
+                                let body;
+                                if (properties) {
+                                    body = [];
+                                    if (Array.isArray(properties)) {
+                                        body = [];
+                                        for (const [key, property] of Object.entries(properties[0])) {
+                                            body.push('      ' + key + ': \'' + (property['type'] ?? '') + '\'');
+                                        }
+                                        thisStringReturn += 'body {\n  [\n    {\n' + body.join(',\n') + '\n    }\n  ]\n}';
+                                    } else {
+                                        for (const [key, property] of Object.entries(properties)) {
+                                            body.push('    ' + key + ': \'' + (property['type'] ?? '') + '\'');
+                                        }
+                                        thisStringReturn += 'body {\n  {\n' + body.join(',\n') + '\n  }\n}';
+                                    }
+                                }
+                                break;
+                            case 'application/xml':
+                            case 'application/x-www-form-urlencoded':
+                            default:
+                        }
+                    }
+                } catch (err) {
+                    // console.log(err);
+                    // console.log('Unable to parse content for ' + ep.method + ' ' + ep.path);
+                }
+            }
 
             arrayReturn.push(thisStringReturn);
             objReturn[ep.summary.toLowerCase().replace(/ /g,"_").replace(/\W/g, '') + '-' + counter] = thisStringReturn;

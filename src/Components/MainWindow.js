@@ -32,6 +32,7 @@ const DataWrapper = styled.div`
 
 const MainWindow = () => {
   const [data, setData] = useState([]);
+  const [schemas, setSchemas] = useState([]);
   const [convertedData, setConvertedData] = useState([]);
   const [outputFormat, setOutputFormat] = useState('Rest Client');
   const [selectedEndpoints, setSelectedEndpoints] = useState([])
@@ -41,7 +42,7 @@ const MainWindow = () => {
     <Container className="container">
       <div className='row'>
         <LeftCol>
-          <SourceInputSelection setData={setData}/>
+          <SourceInputSelection setData={setData} setSchemas={setSchemas}/>
         </LeftCol>
 
         <CenterCol/>
@@ -58,12 +59,14 @@ const MainWindow = () => {
               <EndpointsList
                 setSelectedEndpoints={setSelectedEndpoints}
                 selectedEndpoints={selectedEndpoints}
-                data={data}/>
+                data={data}
+                schemas={schemas}/>
           </LeftCol>
 
           <ButtonColWrapper>
             <ConvertButton 
               data={data}
+              schemas={schemas}
               outputFormat={outputFormat}
               convertSelectedEndpoints={convertSelectedEndpoints}
               selectedEndpoints={selectedEndpoints}
