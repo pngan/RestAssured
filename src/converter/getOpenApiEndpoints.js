@@ -12,9 +12,13 @@ const OpenAPIParser = require("@readme/openapi-parser");
 ******/
 async function getOpenApiEndpoints(strDocPath) {
   try {
-    let api = await OpenAPIParser.parse(strDocPath);
+    let refs = await OpenAPIParser.resolve(strDocPath);
+    let schemas = Object.values(refs.values())[0]?.components?.schemas ?? {};
+    let paths = Object.values(refs.values())[0]?.paths ?? {};
+
     arrEndpoints = [];
-    Object.entries(api.paths).forEach(([endpoint, methods], pathIndex) => {
+
+    Object.entries(paths).forEach(([endpoint, methods], pathIndex) => {
       Object.entries(methods).forEach(([method, data], methodIndex ) => {
         data['method'] = method.toUpperCase();
         data['path'] = endpoint;
@@ -36,8 +40,6 @@ async function getOpenApiEndpoints(strDocPath) {
       });
     });
 
-    let refs = await OpenAPIParser.resolve(strDocPath);
-    let schemas = Object.values(refs.values())[0]?.components?.schemas;
     return { response: 'success', data: { arrEndpoints: arrEndpoints, schemas: schemas } };
   } catch (err) {
       console.log(err);

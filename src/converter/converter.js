@@ -54,7 +54,7 @@ class RestClientConverter {
                         let properties;
                         if (schema.$ref && typeof data.schemas === 'object' && schema.$ref.replace('#/components/schemas/', '') in data.schemas) {
                             properties = data.schemas[schema.$ref.replace('#/components/schemas/', '')].properties ?? null;
-                        } else if (schema?.type == 'array' && typeof data.schemas === 'object' && typeof schema?.items === 'object' && schema.items.$ref.replace('#/components/schemas/', '') in data.schemas) {
+                        } else if (schema?.type === 'array' && typeof data.schemas === 'object' && typeof schema?.items === 'object' && schema.items.$ref.replace('#/components/schemas/', '') in data.schemas) {
                             properties = [data.schemas[schema.items.$ref.replace('#/components/schemas/', '')].properties] ?? null;
                         } else {
                             // TODO: handle nested array / objects
@@ -175,7 +175,7 @@ class BrunoConverter {
                         let properties;
                         if (schema.$ref && typeof data.schemas === 'object' && schema.$ref.replace('#/components/schemas/', '') in data.schemas) {
                             properties = data.schemas[schema.$ref.replace('#/components/schemas/', '')].properties ?? null;
-                        } else if (schema?.type == 'array' && typeof data.schemas === 'object' && typeof schema?.items === 'object' && schema.items.$ref.replace('#/components/schemas/', '') in data.schemas) {
+                        } else if (schema?.type === 'array' && typeof data.schemas === 'object' && typeof schema?.items === 'object' && schema.items.$ref.replace('#/components/schemas/', '') in data.schemas) {
                             properties = [data.schemas[schema.items.$ref.replace('#/components/schemas/', '')].properties] ?? null;
                         } else {
                             // TODO: handle nested array / objects
