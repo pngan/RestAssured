@@ -16,6 +16,8 @@ const SaveButton = ({ convertedData }) => {
         // Zip file
         let zip = new JSZip();
 
+        zip.file("bruno.json", '{\n  "version": "1",\n  "name": "bruno",\n  "type": "collection",\n  "ignore": [\n    "node_modules",\n    ".git",\n  ]\n}');
+
         for (const [name, bru] of Object.entries(convertedData[1])) {
           zip.file('/bruno/' + name + '.bru', new Blob([bru], { type: "text/plain" }));
         }
